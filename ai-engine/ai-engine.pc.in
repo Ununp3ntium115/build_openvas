@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: ai-engine
+Description: AI Integration Engine for OpenVAS
+Version: @PROJECT_VERSION@
+Requires: glib-2.0 >= 2.42, json-glib-1.0, libcurl
+Libs: -L${libdir} -lai-engine
+Cflags: -I${includedir}/ai-engine

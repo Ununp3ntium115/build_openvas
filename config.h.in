@@ -1,0 +1,35 @@
+/**
+ * SPDX-FileCopyrightText: 2025 AI-Enhanced OpenVAS Project
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * 
+ * Configuration header for AI-Enhanced OpenVAS
+ */
+
+#ifndef AI_ENHANCED_OPENVAS_CONFIG_H
+#define AI_ENHANCED_OPENVAS_CONFIG_H
+
+/* Project version */
+#define AI_ENHANCED_OPENVAS_VERSION "@PROJECT_VERSION@"
+#define AI_ENHANCED_OPENVAS_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define AI_ENHANCED_OPENVAS_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define AI_ENHANCED_OPENVAS_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+/* Build configuration */
+#cmakedefine BUILD_AI_ENGINE
+#cmakedefine BUILD_AI_PLUGINS
+#cmakedefine BUILD_CORE_COMPONENTS
+
+/* AI Provider support */
+#cmakedefine ENABLE_OPENAI
+#cmakedefine ENABLE_CLAUDE
+#cmakedefine ENABLE_LOCAL_AI
+
+/* Build type */
+#cmakedefine CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
+
+/* Installation paths */
+#define AI_ENHANCED_OPENVAS_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+#define AI_ENHANCED_OPENVAS_LIB_DIR "@CMAKE_INSTALL_PREFIX@/lib"
+#define AI_ENHANCED_OPENVAS_INCLUDE_DIR "@CMAKE_INSTALL_PREFIX@/include"
+
+#endif /* AI_ENHANCED_OPENVAS_CONFIG_H */
