@@ -29,6 +29,8 @@ set(AI_ENGINE_SOURCES
     config/ai_config_manager.c
     security/ai_security.c
     monitoring/ai_metrics.c
+    scoring/vulnerability_scoring.c
+    scoring/external_data_sources.c
 )
 
 set(AI_ENGINE_HEADERS
@@ -36,6 +38,7 @@ set(AI_ENGINE_HEADERS
     config/ai_config_manager.h
     security/ai_security.h
     monitoring/ai_metrics.h
+    scoring/vulnerability_scoring.h
 )
 
 # Create AI Engine library

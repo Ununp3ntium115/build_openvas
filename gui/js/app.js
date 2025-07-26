@@ -425,7 +425,161 @@ class AIOpenVASApp {
             // Update response content
             document.getElementById('response-content').textContent = 
                 response.result?.content || 'No content available';
+            
+            // Display vulnerability scoring if available
+            if (response.vulnerability_scoring) {
+                this.displayVulnerabilityScoring(response.vulnerability_scoring);
+            }
         }
+    }
+
+    /**
+     * Display vulnerability scoring information
+     */
+    displayVulnerabilityScoring(scoring) {
+        const scoringContainer = document.getElementById('vulnerability-scoring');
+        if (!scoringContainer) return;
+        
+        scoringContainer.style.display = 'block';
+        
+        // Update CVSS scores
+        this.updateCVSSScores(scoring.cvss_scores);
+        
+        // Update KEV status
+        this.updateKEVStatus(scoring.kev_info);
+        
+        // Update EPSS score
+        this.updateEPSSScore(scoring.epss_info);
+        
+        // Update SSVC decision
+        this.updateSSVCDecision(scoring.ssvc_info);
+        
+        // Update AI-enhanced scores
+        this.updateAIScores(scoring.ai_enhanced);
+    }
+
+    /**
+     * Update CVSS scores display
+     */
+    updateCVSSScores(cvssScores) {
+        // CVSS v4.0
+        const v4Score = document.getElementById('cvss-v4-score');
+        const v4Severity = document.getElementById('cvss-v4-severity');
+        if (cvssScores.v4_0) {
+            v4Score.textContent = cvssScores.v4_0.base_score.toFixed(1);
+            v4Severity.textContent = cvssScores.v4_0.severity;
+            v4Severity.className = `score-severity ${cvssScores.v4_0.severity.toLowerCase()}`;
+        } else {
+            v4Score.textContent = 'N/A';
+            v4Severity.textContent = '';
+            v4Severity.className = 'score-severity none';
+        }
+        
+        // CVSS v3.1
+        const v31Score = document.getElementById('cvss-v31-score');
+        const v31Severity = document.getElementById('cvss-v31-severity');
+        if (cvssScores.v3_1) {
+            v31Score.textContent = cvssScores.v3_1.base_score.toFixed(1);
+            v31Severity.textContent = cvssScores.v3_1.severity;
+            v31Severity.className = `score-severity ${cvssScores.v3_1.severity.toLowerCase()}`;
+        } else {
+            v31Score.textContent = 'N/A';
+            v31Severity.textContent = '';
+            v31Severity.className = 'score-severity none';
+        }
+        
+        // CVSS v3.0
+        const v30Score = document.getElementById('cvss-v30-score');
+        const v30Severity = document.getElementById('cvss-v30-severity');
+        if (cvssScores.v3_0) {
+            v30Score.textContent = cvssScores.v3_0.base_score.toFixed(1);
+            v30Severity.textContent = cvssScores.v3_0.severity;
+            v30Severity.className = `score-severity ${cvssScores.v3_0.severity.toLowerCase()}`;
+        } else {
+            v30Score.textContent = 'N/A';
+            v30Severity.textContent = '';
+            v30Severity.className = 'score-severity none';
+        }
+        
+        // CVSS v2
+        const v2Score = document.getElementById('cvss-v2-score');
+        const v2Severity = document.getElementById('cvss-v2-severity');
+        if (cvssScores.v2) {
+            v2Score.textContent = cvssScores.v2.base_score.toFixed(1);
+            v2Severity.textContent = this.getCVSSv2Severity(cvssScores.v2.base_score);
+            v2Severity.className = `score-severity ${this.getCVSSv2Severity(cvssScores.v2.base_score).toLowerCase()}`;
+        } else {
+            v2Score.textContent = 'N/A';
+            v2Severity.textContent = '';
+            v2Severity.className = 'score-severity none';
+        }
+    }
+
+    /**
+     * Update KEV status display
+     */
+    updateKEVStatus(kevInfo) {
+        const kevStatus = document.getElementById('kev-status');
+        const kevDetails = document.getElementById('kev-details');
+        
+        if (kevInfo.is_kev) {
+            kevStatus.textContent = 'Yes';
+            kevStatus.className = 'kev-status yes';
+            kevDetails.textContent = kevInfo.date_added ? `Added: ${kevInfo.date_added}` : '';
+        } else {
+            kevStatus.textContent = 'No';
+            kevStatus.className = 'kev-status no';
+            kevDetails.textContent = '';
+        }
+    }
+
+    /**
+     * Update EPSS score display
+     */
+    updateEPSSScore(epssInfo) {
+        const epssScore = document.getElementById('epss-score');
+        const epssPercentile = document.getElementById('epss-percentile');
+        
+        epssScore.textContent = epssInfo.score.toFixed(5);
+        epssPercentile.textContent = `(${epssInfo.percentile.toFixed(1)}%)`;
+    }
+
+    /**
+     * Update SSVC decision display
+     */
+    updateSSVCDecision(ssvcInfo) {
+        const ssvcDecision = document.getElementById('ssvc-decision');
+        
+        ssvcDecision.textContent = ssvcInfo.decision;
+        ssvcDecision.className = `ssvc-decision ${ssvcInfo.decision.toLowerCase().replace('*', '-star')}`;
+    }
+
+    /**
+     * Update AI-enhanced scores display
+     */
+    updateAIScores(aiScores) {
+        const aiRiskScore = document.getElementById('ai-risk-score');
+        const aiPriority = document.getElementById('ai-priority');
+        const remediationUrgency = document.getElementById('remediation-urgency');
+        
+        aiRiskScore.textContent = aiScores.risk_score.toFixed(1);
+        
+        aiPriority.textContent = aiScores.priority;
+        aiPriority.className = `ai-priority ${aiScores.priority.toLowerCase()}`;
+        
+        remediationUrgency.textContent = aiScores.remediation_urgency;
+        remediationUrgency.className = `remediation-urgency ${aiScores.remediation_urgency.toLowerCase()}`;
+    }
+
+    /**
+     * Get CVSS v2 severity from score
+     */
+    getCVSSv2Severity(score) {
+        if (score === 0.0) return 'None';
+        else if (score >= 0.0 && score <= 3.9) return 'Low';
+        else if (score >= 4.0 && score <= 6.9) return 'Medium';
+        else if (score >= 7.0 && score <= 10.0) return 'High';
+        else return 'None';
     }
 
     /**

@@ -328,6 +328,7 @@ class MockAIServiceAPI extends AIServiceAPI {
                     content: this.generateMockAIResponse(requestData.task_type),
                     provider: requestData.provider
                 },
+                vulnerability_scoring: this.generateMockVulnerabilityScoring(requestData),
                 timestamp: new Date().toISOString()
             };
 
@@ -432,6 +433,92 @@ CONFIDENCE: 91%`
         };
 
         return responses[taskType] || 'AI analysis completed successfully.';
+    }
+
+    generateMockVulnerabilityScoring(requestData) {
+        // Generate mock vulnerability scoring data
+        const cveId = this.extractCVEFromRequest(requestData);
+        
+        return {
+            cve_id: cveId,
+            cvss_scores: {
+                v4_0: null, // N/A for demonstration
+                v3_1: {
+                    base_score: 9.1,
+                    severity: 'CRITICAL',
+                    vector: 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N',
+                    attack_vector: 'NETWORK',
+                    attack_complexity: 'LOW',
+                    privileges_required: 'NONE',
+                    user_interaction: 'NONE',
+                    scope: 'UNCHANGED',
+                    confidentiality: 'HIGH',
+                    integrity: 'HIGH',
+                    availability: 'NONE'
+                },
+                v3_0: null, // N/A for demonstration
+                v2: null    // N/A for demonstration
+            },
+            kev_info: {
+                is_kev: false,
+                date_added: null,
+                due_date: null,
+                required_action: null,
+                known_ransomware_use: null
+            },
+            epss_info: {
+                score: 0.00052,
+                percentile: 5.2,
+                date: new Date().toISOString().split('T')[0],
+                model_version: '3.0.0'
+            },
+            ssvc_info: {
+                decision: 'ATTEND',
+                exploitation: 'none',
+                automatable: 'no',
+                technical_impact: 'total',
+                mission_impact: 'high'
+            },
+            ai_enhanced: {
+                risk_score: 8.7,
+                priority: 'HIGH',
+                remediation_urgency: 'HIGH',
+                composite_reasoning: 'High CVSS score (9.1) with total technical impact, despite low EPSS probability'
+            },
+            metadata: {
+                published_date: '2023-12-15T10:30:00Z',
+                last_modified: '2024-01-10T14:22:00Z',
+                cwe_ids: ['CWE-89', 'CWE-20'],
+                references: [
+                    'https://nvd.nist.gov/vuln/detail/' + cveId,
+                    'https://cve.mitre.org/cgi-bin/cvename.cgi?name=' + cveId
+                ]
+            }
+        };
+    }
+
+    extractCVEFromRequest(requestData) {
+        // Try to extract CVE ID from request data
+        const inputData = requestData.input_data;
+        
+        if (inputData && inputData.cve_id) {
+            return inputData.cve_id;
+        }
+        
+        if (inputData && inputData.vulnerability) {
+            // Generate a mock CVE ID based on vulnerability type
+            const vulnType = inputData.vulnerability.toLowerCase();
+            if (vulnType.includes('sql')) {
+                return 'CVE-2023-12345';
+            } else if (vulnType.includes('xss')) {
+                return 'CVE-2023-23456';
+            } else if (vulnType.includes('rce')) {
+                return 'CVE-2023-34567';
+            }
+        }
+        
+        // Default mock CVE
+        return 'CVE-2023-12345';
     }
 }
 

@@ -234,13 +234,98 @@
 
             <!-- Request Results -->
             <div class="results-container" id="results-container" style="display: none;">
-                <h3>Response</h3>
+                <h3>AI Analysis Response</h3>
                 <div class="response-info">
                     <span class="response-status" id="response-status"></span>
                     <span class="response-time" id="response-time"></span>
                     <span class="confidence-score" id="confidence-score"></span>
                 </div>
                 <div class="response-content" id="response-content"></div>
+                
+                <!-- Vulnerability Scoring Section -->
+                <div class="vulnerability-scoring" id="vulnerability-scoring" style="display: none;">
+                    <h4>Comprehensive Vulnerability Scoring</h4>
+                    
+                    <!-- CVSS Scores -->
+                    <div class="scoring-section">
+                        <h5><i class="fas fa-shield-alt"></i> CVSS Scores</h5>
+                        <div class="cvss-scores">
+                            <div class="score-item">
+                                <label>CVSS v4.0:</label>
+                                <span class="score-value" id="cvss-v4-score">N/A</span>
+                                <span class="score-severity" id="cvss-v4-severity"></span>
+                            </div>
+                            <div class="score-item">
+                                <label>CVSS v3.1:</label>
+                                <span class="score-value" id="cvss-v31-score">N/A</span>
+                                <span class="score-severity" id="cvss-v31-severity"></span>
+                            </div>
+                            <div class="score-item">
+                                <label>CVSS v3.0:</label>
+                                <span class="score-value" id="cvss-v30-score">N/A</span>
+                                <span class="score-severity" id="cvss-v30-severity"></span>
+                            </div>
+                            <div class="score-item">
+                                <label>CVSS v2:</label>
+                                <span class="score-value" id="cvss-v2-score">N/A</span>
+                                <span class="score-severity" id="cvss-v2-severity"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Scoring Systems -->
+                    <div class="scoring-section">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Risk Assessment</h5>
+                        <div class="risk-scores">
+                            <div class="score-item">
+                                <label>KEV Status:</label>
+                                <span class="kev-status" id="kev-status">No</span>
+                                <span class="kev-details" id="kev-details"></span>
+                            </div>
+                            <div class="score-item">
+                                <label>EPSS Score:</label>
+                                <span class="epss-score" id="epss-score">0.00000</span>
+                                <span class="epss-percentile" id="epss-percentile">(0.0%)</span>
+                            </div>
+                            <div class="score-item">
+                                <label>SSVC Decision:</label>
+                                <span class="ssvc-decision" id="ssvc-decision">Track</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI-Enhanced Scoring -->
+                    <div class="scoring-section">
+                        <h5><i class="fas fa-robot"></i> AI-Enhanced Analysis</h5>
+                        <div class="ai-scores">
+                            <div class="score-item">
+                                <label>AI Risk Score:</label>
+                                <span class="ai-risk-score" id="ai-risk-score">0.0</span>
+                                <span class="score-scale">/10.0</span>
+                            </div>
+                            <div class="score-item">
+                                <label>AI Priority:</label>
+                                <span class="ai-priority" id="ai-priority">LOW</span>
+                            </div>
+                            <div class="score-item">
+                                <label>Remediation Urgency:</label>
+                                <span class="remediation-urgency" id="remediation-urgency">LOW</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Scoring Explanation -->
+                    <div class="scoring-explanation">
+                        <h6>Scoring Interpretation</h6>
+                        <div class="explanation-content" id="scoring-explanation">
+                            <p><strong>CVSS (Common Vulnerability Scoring System):</strong> Industry standard for vulnerability severity rating.</p>
+                            <p><strong>KEV (Known Exploited Vulnerabilities):</strong> CISA catalog of vulnerabilities with confirmed exploitation.</p>
+                            <p><strong>EPSS (Exploit Prediction Scoring System):</strong> Probability of exploitation in the next 30 days.</p>
+                            <p><strong>SSVC (Stakeholder-Specific Vulnerability Categorization):</strong> Decision framework for vulnerability prioritization.</p>
+                            <p><strong>AI Risk Score:</strong> Composite score combining all metrics with AI-enhanced weighting.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Request History -->

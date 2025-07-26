@@ -33,6 +33,10 @@ add_executable(test_production_ready
     test_production_ready.c
 )
 
+add_executable(test_vulnerability_scoring
+    test_vulnerability_scoring.c
+)
+
 # Link libraries
 target_link_libraries(test_ai_service
     ai-engine
@@ -52,6 +56,12 @@ target_link_libraries(test_production_ready
     ${JSON_GLIB_LIBRARIES}
 )
 
+target_link_libraries(test_vulnerability_scoring
+    ai-engine
+    ${GLIB_LIBRARIES}
+    ${JSON_GLIB_LIBRARIES}
+)
+
 # Enable testing
 enable_testing()
 
@@ -59,9 +69,10 @@ enable_testing()
 add_test(NAME ai_service_test COMMAND test_ai_service)
 add_test(NAME integration_test COMMAND test_integration)
 add_test(NAME production_ready_test COMMAND test_production_ready)
+add_test(NAME vulnerability_scoring_test COMMAND test_vulnerability_scoring)
 
 # Install test binaries (optional)
-install(TARGETS test_ai_service test_integration test_production_ready
+install(TARGETS test_ai_service test_integration test_production_ready test_vulnerability_scoring
     RUNTIME DESTINATION bin/tests
     OPTIONAL
 )
