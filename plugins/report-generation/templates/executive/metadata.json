@@ -1,0 +1,268 @@
+{
+  "name": "executive_summary",
+  "display_name": "Executive Summary Report",
+  "description": "Professional executive summary report template for vulnerability assessments, designed for C-level and senior management consumption",
+  "author": "OpenVAS AI-Enhanced Reporting System",
+  "version": "1.0.0",
+  "type": "executive",
+  "created_date": "2025-01-25",
+  "modified_date": "2025-01-25",
+  "required_variables": [
+    {
+      "name": "company_name",
+      "display_name": "Company Name",
+      "description": "Name of the organization conducting the assessment",
+      "data_type": "string",
+      "required": true
+    },
+    {
+      "name": "company_logo",
+      "display_name": "Company Logo",
+      "description": "Path to company logo image file",
+      "data_type": "file_path",
+      "required": true
+    },
+    {
+      "name": "client_name",
+      "display_name": "Client Name",
+      "description": "Name of the client organization being assessed",
+      "data_type": "string",
+      "required": true
+    },
+    {
+      "name": "report_title",
+      "display_name": "Report Title",
+      "description": "Title of the vulnerability assessment report",
+      "data_type": "string",
+      "required": true
+    },
+    {
+      "name": "report_date",
+      "display_name": "Report Date",
+      "description": "Date when the report was generated",
+      "data_type": "date",
+      "required": true
+    },
+    {
+      "name": "assessment_period",
+      "display_name": "Assessment Period",
+      "description": "Time period during which the assessment was conducted",
+      "data_type": "string",
+      "required": true
+    },
+    {
+      "name": "total_vulnerabilities",
+      "display_name": "Total Vulnerabilities",
+      "description": "Total number of vulnerabilities found",
+      "data_type": "integer",
+      "required": true
+    },
+    {
+      "name": "total_hosts",
+      "display_name": "Total Hosts",
+      "description": "Total number of hosts assessed",
+      "data_type": "integer",
+      "required": true
+    },
+    {
+      "name": "critical_count",
+      "display_name": "Critical Vulnerabilities",
+      "description": "Number of critical severity vulnerabilities",
+      "data_type": "integer",
+      "required": true
+    },
+    {
+      "name": "high_count",
+      "display_name": "High Vulnerabilities",
+      "description": "Number of high severity vulnerabilities",
+      "data_type": "integer",
+      "required": true
+    },
+    {
+      "name": "medium_count",
+      "display_name": "Medium Vulnerabilities",
+      "description": "Number of medium severity vulnerabilities",
+      "data_type": "integer",
+      "required": true
+    },
+    {
+      "name": "low_count",
+      "display_name": "Low Vulnerabilities",
+      "description": "Number of low severity vulnerabilities",
+      "data_type": "integer",
+      "required": true
+    }
+  ],
+  "optional_variables": [
+    {
+      "name": "company_address",
+      "display_name": "Company Address",
+      "description": "Company address for report footer",
+      "data_type": "string",
+      "default_value": "",
+      "required": false
+    },
+    {
+      "name": "company_contact",
+      "display_name": "Company Contact",
+      "description": "Company contact information",
+      "data_type": "string",
+      "default_value": "",
+      "required": false
+    },
+    {
+      "name": "confidentiality_risk_count",
+      "display_name": "Confidentiality Risk Count",
+      "description": "Number of vulnerabilities affecting data confidentiality",
+      "data_type": "integer",
+      "default_value": "0",
+      "required": false
+    },
+    {
+      "name": "availability_risk_count",
+      "display_name": "Availability Risk Count",
+      "description": "Number of vulnerabilities affecting system availability",
+      "data_type": "integer",
+      "default_value": "0",
+      "required": false
+    },
+    {
+      "name": "integrity_risk_count",
+      "display_name": "Integrity Risk Count",
+      "description": "Number of vulnerabilities affecting data integrity",
+      "data_type": "integer",
+      "default_value": "0",
+      "required": false
+    },
+    {
+      "name": "compliance_summary",
+      "display_name": "Compliance Summary",
+      "description": "Summary of compliance implications",
+      "data_type": "text",
+      "default_value": "No specific compliance implications identified.",
+      "required": false
+    },
+    {
+      "name": "immediate_actions",
+      "display_name": "Immediate Actions",
+      "description": "List of immediate remediation actions",
+      "data_type": "text",
+      "default_value": "\\item Review critical vulnerabilities\\n\\item Implement emergency patches",
+      "required": false
+    },
+    {
+      "name": "short_term_actions",
+      "display_name": "Short-term Actions",
+      "description": "List of short-term remediation actions",
+      "data_type": "text",
+      "default_value": "\\item Address high-severity vulnerabilities\\n\\item Update security policies",
+      "required": false
+    },
+    {
+      "name": "long_term_actions",
+      "display_name": "Long-term Actions",
+      "description": "List of long-term remediation actions",
+      "data_type": "text",
+      "default_value": "\\item Implement security awareness training\\n\\item Regular vulnerability assessments",
+      "required": false
+    },
+    {
+      "name": "top_vulnerabilities_table",
+      "display_name": "Top Vulnerabilities Table",
+      "description": "LaTeX table content for top vulnerabilities",
+      "data_type": "text",
+      "default_value": "No critical vulnerabilities identified & N/A & N/A & System appears secure \\\\\\hline",
+      "required": false
+    },
+    {
+      "name": "risk_trend_analysis",
+      "display_name": "Risk Trend Analysis",
+      "description": "Analysis of risk trends over time",
+      "data_type": "text",
+      "default_value": "This is the first assessment for this environment. Future assessments will provide trend analysis.",
+      "required": false
+    },
+    {
+      "name": "strategic_recommendations",
+      "display_name": "Strategic Recommendations",
+      "description": "High-level strategic recommendations",
+      "data_type": "text",
+      "default_value": "\\item Establish regular vulnerability management program\\n\\item Implement security awareness training",
+      "required": false
+    },
+    {
+      "name": "tactical_recommendations",
+      "display_name": "Tactical Recommendations",
+      "description": "Specific tactical recommendations",
+      "data_type": "text",
+      "default_value": "\\item Apply security patches promptly\\n\\item Configure systems according to security baselines",
+      "required": false
+    },
+    {
+      "name": "followup_timeframe",
+      "display_name": "Follow-up Timeframe",
+      "description": "Recommended timeframe for next assessment",
+      "data_type": "string",
+      "default_value": "6 months",
+      "required": false
+    },
+    {
+      "name": "technical_lead_name",
+      "display_name": "Technical Lead Name",
+      "description": "Name of technical lead for the assessment",
+      "data_type": "string",
+      "default_value": "Technical Team",
+      "required": false
+    },
+    {
+      "name": "technical_lead_email",
+      "display_name": "Technical Lead Email",
+      "description": "Email of technical lead",
+      "data_type": "string",
+      "default_value": "technical@company.com",
+      "required": false
+    },
+    {
+      "name": "technical_lead_phone",
+      "display_name": "Technical Lead Phone",
+      "description": "Phone number of technical lead",
+      "data_type": "string",
+      "default_value": "+1-555-0123",
+      "required": false
+    },
+    {
+      "name": "account_manager_name",
+      "display_name": "Account Manager Name",
+      "description": "Name of account manager",
+      "data_type": "string",
+      "default_value": "Account Management",
+      "required": false
+    },
+    {
+      "name": "account_manager_email",
+      "display_name": "Account Manager Email",
+      "description": "Email of account manager",
+      "data_type": "string",
+      "default_value": "accounts@company.com",
+      "required": false
+    },
+    {
+      "name": "account_manager_phone",
+      "display_name": "Account Manager Phone",
+      "description": "Phone number of account manager",
+      "data_type": "string",
+      "default_value": "+1-555-0124",
+      "required": false
+    }
+  ],
+  "custom_metadata": {
+    "target_audience": "C-level executives, senior management",
+    "estimated_pages": "8-12",
+    "recommended_use": "Board presentations, executive briefings",
+    "color_scheme": "Professional blue and gray",
+    "chart_types": ["bar_chart", "risk_matrix", "trend_analysis"],
+    "compliance_frameworks": ["general"],
+    "language_support": ["en"],
+    "output_formats": ["pdf", "html"]
+  }
+}

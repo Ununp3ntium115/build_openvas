@@ -82,23 +82,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scan-optimization/ai_scan_optimizer.c")
     message(STATUS "AI Scan Optimizer plugin configured")
 endif()
 
-# Report Generation Plugin (placeholder)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/report-generation/ai_report_generator.c")
-    add_library(ai-report-generator SHARED
-        report-generation/ai_report_generator.c
-    )
-    
-    target_link_libraries(ai-report-generator
-        ai-engine
-        ${GLIB_LIBRARIES}
-        ${JSON_GLIB_LIBRARIES}
-    )
-    
-    install(TARGETS ai-report-generator
-        LIBRARY DESTINATION lib/ai-enhanced-openvas/plugins
-    )
-    
-    message(STATUS "AI Report Generator plugin configured")
+# Professional LaTeX Report Generation Plugin
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/report-generation/CMakeLists.txt")
+    add_subdirectory(report-generation)
+    message(STATUS "Professional LaTeX Report Generation plugin configured")
 endif()
 
 # Install plugin headers

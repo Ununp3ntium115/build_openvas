@@ -1,0 +1,237 @@
+\documentclass[11pt,a4paper]{article}
+
+% Required packages
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% Color definitions
+\definecolor{primarycolor}{RGB}{0,102,204}
+\definecolor{secondarycolor}{RGB}{102,102,102}
+\definecolor{criticalcolor}{RGB}{220,20,60}
+\definecolor{highcolor}{RGB}{255,140,0}
+\definecolor{mediumcolor}{RGB}{255,215,0}
+\definecolor{lowcolor}{RGB}{50,205,50}
+
+% Font settings
+\setmainfont{Arial}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[height=1cm]{{{company_logo}}}}
+\fancyhead[R]{\textcolor{primarycolor}{\textbf{{{company_name}}}}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\textcolor{secondarycolor}{\small Generated on {{report_date}}}}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries\color{primarycolor}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{secondarycolor}}{\thesubsection}{1em}{}
+
+% Document settings
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarycolor,
+    urlcolor=primarycolor,
+    pdftitle={{{report_title}}},
+    pdfauthor={{{company_name}}},
+    pdfsubject={Vulnerability Assessment Executive Summary}
+}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    \includegraphics[width=0.3\textwidth]{{{company_logo}}}
+    
+    \vspace{2cm}
+    
+    {\Huge\bfseries\color{primarycolor} {{report_title}}}
+    
+    \vspace{1cm}
+    
+    {\Large\color{secondarycolor} Executive Summary}
+    
+    \vspace{2cm}
+    
+    {\large Prepared for: \textbf{{{client_name}}}}
+    
+    \vspace{0.5cm}
+    
+    {\large Report Date: \textbf{{{report_date}}}}
+    
+    \vspace{0.5cm}
+    
+    {\large Assessment Period: \textbf{{{assessment_period}}}}
+    
+    \vfill
+    
+    {\color{secondarycolor}
+    \textbf{{{company_name}}} \\
+    {{company_address}} \\
+    {{company_contact}}
+    }
+    
+\end{titlepage}
+
+\newpage
+
+% Executive Summary
+\section{Executive Summary}
+
+This executive summary provides a high-level overview of the vulnerability assessment conducted for {{client_name}} during the period of {{assessment_period}}. The assessment identified {{total_vulnerabilities}} vulnerabilities across {{total_hosts}} systems, with {{critical_count}} critical and {{high_count}} high-severity issues requiring immediate attention.
+
+\subsection{Key Findings}
+
+\begin{itemize}
+    \item \textbf{Critical Risk:} {{critical_count}} vulnerabilities pose immediate threat to business operations
+    \item \textbf{High Risk:} {{high_count}} vulnerabilities require urgent remediation within 30 days
+    \item \textbf{Medium Risk:} {{medium_count}} vulnerabilities should be addressed within 90 days
+    \item \textbf{Low Risk:} {{low_count}} vulnerabilities for long-term remediation planning
+\end{itemize}
+
+\subsection{Risk Assessment Overview}
+
+% Risk distribution chart
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=12cm,
+        height=8cm,
+        xlabel={Severity Level},
+        ylabel={Number of Vulnerabilities},
+        ybar,
+        bar width=1.5cm,
+        symbolic x coords={Critical,High,Medium,Low},
+        xtick=data,
+        nodes near coords,
+        nodes near coords align={vertical},
+        ymin=0,
+        legend pos=north east,
+        grid=major,
+        grid style={dashed,gray!30}
+    ]
+    \addplot[fill=criticalcolor] coordinates {
+        (Critical,{{critical_count}})
+        (High,{{high_count}})
+        (Medium,{{medium_count}})
+        (Low,{{low_count}})
+    };
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\section{Business Impact Assessment}
+
+\subsection{Immediate Risks}
+
+The {{critical_count}} critical vulnerabilities identified pose significant risks to:
+\begin{itemize}
+    \item \textbf{Data Confidentiality:} {{confidentiality_risk_count}} vulnerabilities could lead to data breaches
+    \item \textbf{System Availability:} {{availability_risk_count}} vulnerabilities could cause service disruptions
+    \item \textbf{Data Integrity:} {{integrity_risk_count}} vulnerabilities could compromise data accuracy
+\end{itemize}
+
+\subsection{Compliance Implications}
+
+{{compliance_summary}}
+
+\section{Remediation Priorities}
+
+\subsection{Immediate Actions (0-7 days)}
+\begin{enumerate}
+    {{immediate_actions}}
+\end{enumerate}
+
+\subsection{Short-term Actions (8-30 days)}
+\begin{enumerate}
+    {{short_term_actions}}
+\end{enumerate}
+
+\subsection{Long-term Actions (31-90 days)}
+\begin{enumerate}
+    {{long_term_actions}}
+\end{enumerate}
+
+\section{Top Vulnerabilities}
+
+\begin{longtable}{|p{3cm}|p{2cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{Vulnerability} & \textbf{Severity} & \textbf{CVSS Score} & \textbf{Description} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Vulnerability} & \textbf{Severity} & \textbf{CVSS Score} & \textbf{Description} \\
+\hline
+\endhead
+
+{{top_vulnerabilities_table}}
+
+\end{longtable}
+
+\section{Risk Trend Analysis}
+
+{{risk_trend_analysis}}
+
+\section{Recommendations}
+
+\subsection{Strategic Recommendations}
+\begin{itemize}
+    {{strategic_recommendations}}
+\end{itemize}
+
+\subsection{Tactical Recommendations}
+\begin{itemize}
+    {{tactical_recommendations}}
+\end{itemize}
+
+\section{Next Steps}
+
+\begin{enumerate}
+    \item Review and approve remediation plan
+    \item Assign resources for critical vulnerability remediation
+    \item Implement monitoring for high-risk systems
+    \item Schedule follow-up assessment in {{followup_timeframe}}
+\end{enumerate}
+
+\section{Contact Information}
+
+For questions regarding this assessment or remediation support, please contact:
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Technical Lead:} & {{technical_lead_name}} \\
+\textbf{Email:} & {{technical_lead_email}} \\
+\textbf{Phone:} & {{technical_lead_phone}} \\
+\\
+\textbf{Account Manager:} & {{account_manager_name}} \\
+\textbf{Email:} & {{account_manager_email}} \\
+\textbf{Phone:} & {{account_manager_phone}} \\
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\textcolor{secondarycolor}{\small
+This report contains confidential and proprietary information. \\
+Distribution is restricted to authorized personnel only.
+}
+\end{center}
+
+\end{document}
