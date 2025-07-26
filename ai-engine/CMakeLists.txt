@@ -26,10 +26,16 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -std=c11")
 set(AI_ENGINE_SOURCES
     api/ai_service.c
     providers/openai_provider.c
+    config/ai_config_manager.c
+    security/ai_security.c
+    monitoring/ai_metrics.c
 )
 
 set(AI_ENGINE_HEADERS
     api/ai_service.h
+    config/ai_config_manager.h
+    security/ai_security.h
+    monitoring/ai_metrics.h
 )
 
 # Create AI Engine library

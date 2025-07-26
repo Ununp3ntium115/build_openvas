@@ -65,6 +65,22 @@ if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
+# Install GUI
+option(INSTALL_GUI "Install web-based GUI" ON)
+if(INSTALL_GUI)
+    install(DIRECTORY gui/
+        DESTINATION share/ai-enhanced-openvas/gui
+        FILES_MATCHING 
+        PATTERN "*.html"
+        PATTERN "*.css" 
+        PATTERN "*.js"
+        PATTERN "*.svg"
+        PATTERN "*.ico"
+    )
+    
+    message(STATUS "GUI will be installed to: ${CMAKE_INSTALL_PREFIX}/share/ai-enhanced-openvas/gui")
+endif()
+
 # Build Core Components (if requested)
 if(BUILD_CORE_COMPONENTS)
     # Build order matters due to dependencies

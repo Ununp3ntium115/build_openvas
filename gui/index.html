@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Enhanced OpenVAS Management Console</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for metrics visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Moment.js for time formatting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>AI-Enhanced OpenVAS</h1>
+                <span class="version">v1.0.0</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#providers" class="nav-item" data-section="providers">
+                    <i class="fas fa-plug"></i> AI Providers
+                </a>
+                <a href="#requests" class="nav-item" data-section="requests">
+                    <i class="fas fa-paper-plane"></i> Requests
+                </a>
+                <a href="#monitoring" class="nav-item" data-section="monitoring">
+                    <i class="fas fa-chart-line"></i> Monitoring
+                </a>
+                <a href="#configuration" class="nav-item" data-section="configuration">
+                    <i class="fas fa-cog"></i> Configuration
+                </a>
+                <a href="#logs" class="nav-item" data-section="logs">
+                    <i class="fas fa-file-alt"></i> Logs
+                </a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-icon" id="refresh-btn" title="Refresh Data">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="btn btn-icon" id="settings-btn" title="Settings">
+                    <i class="fas fa-user-cog"></i>
+                </button>
+                <div class="status-indicator" id="connection-status">
+                    <i class="fas fa-circle"></i>
+                    <span>Connected</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <div class="section-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                <p>Real-time overview of AI-Enhanced OpenVAS system status and performance</p>
+            </div>
+
+            <!-- Key Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Total Requests</h3>
+                        <div class="metric-value" id="total-requests">0</div>
+                        <div class="metric-change positive" id="requests-change">+0%</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Success Rate</h3>
+                        <div class="metric-value" id="success-rate">0%</div>
+                        <div class="metric-change" id="success-change">+0%</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Avg Response Time</h3>
+                        <div class="metric-value" id="avg-response-time">0ms</div>
+                        <div class="metric-change" id="response-time-change">+0%</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-memory"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Cache Hit Rate</h3>
+                        <div class="metric-value" id="cache-hit-rate">0%</div>
+                        <div class="metric-change" id="cache-change">+0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h3>Request Volume (Last 24 Hours)</h3>
+                    <canvas id="requests-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Provider Performance</h3>
+                    <canvas id="providers-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="status-grid">
+                <div class="status-card">
+                    <h3><i class="fas fa-server"></i> System Status</h3>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">AI Service</span>
+                            <span class="status-badge running" id="ai-service-status">Running</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Cache System</span>
+                            <span class="status-badge running" id="cache-status">Running</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Rate Limiter</span>
+                            <span class="status-badge running" id="rate-limiter-status">Running</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Monitoring</span>
+                            <span class="status-badge running" id="monitoring-status">Running</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <h3><i class="fas fa-plug"></i> AI Providers</h3>
+                    <div class="provider-list" id="provider-status-list">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Providers Section -->
+        <section id="providers-section" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-plug"></i> AI Providers</h2>
+                <p>Manage and configure AI service providers</p>
+                <button class="btn btn-primary" id="add-provider-btn">
+                    <i class="fas fa-plus"></i> Add Provider
+                </button>
+            </div>
+
+            <div class="providers-grid" id="providers-grid">
+                <!-- Dynamically populated provider cards -->
+            </div>
+        </section>
+
+        <!-- Requests Section -->
+        <section id="requests-section" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-paper-plane"></i> AI Requests</h2>
+                <p>Send requests to AI providers and view results</p>
+            </div>
+
+            <!-- Request Form -->
+            <div class="request-form-container">
+                <form id="ai-request-form" class="request-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="provider-select">AI Provider</label>
+                            <select id="provider-select" required>
+                                <option value="">Select Provider</option>
+                                <option value="openai">OpenAI GPT-4</option>
+                                <option value="claude">Claude 3</option>
+                                <option value="custom">Custom Model</option>
+                                <option value="local">Local Model</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-type-select">Task Type</label>
+                            <select id="task-type-select" required>
+                                <option value="">Select Task</option>
+                                <option value="vulnerability_analysis">Vulnerability Analysis</option>
+                                <option value="threat_modeling">Threat Modeling</option>
+                                <option value="scan_optimization">Scan Optimization</option>
+                                <option value="report_generation">Report Generation</option>
+                                <option value="exploit_suggestion">Exploit Suggestion</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="request-data">Request Data (JSON)</label>
+                        <textarea id="request-data" rows="8" placeholder='{"vulnerability": "SQL Injection", "severity": "High", "cvss_score": "9.8"}'></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="context-input">Context (Optional)</label>
+                        <textarea id="context-input" rows="3" placeholder="Additional context for the AI analysis..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Request
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="clear-form-btn">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="load-example-btn">
+                            <i class="fas fa-file-import"></i> Load Example
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Request Results -->
+            <div class="results-container" id="results-container" style="display: none;">
+                <h3>Response</h3>
+                <div class="response-info">
+                    <span class="response-status" id="response-status"></span>
+                    <span class="response-time" id="response-time"></span>
+                    <span class="confidence-score" id="confidence-score"></span>
+                </div>
+                <div class="response-content" id="response-content"></div>
+            </div>
+
+            <!-- Request History -->
+            <div class="history-container">
+                <h3>Recent Requests</h3>
+                <div class="request-history" id="request-history">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Section -->
+        <section id="monitoring-section" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Monitoring & Metrics</h2>
+                <p>Real-time monitoring and performance analytics</p>
+            </div>
+
+            <!-- Real-time Metrics -->
+            <div class="monitoring-grid">
+                <div class="monitoring-card">
+                    <h3>Real-time Performance</h3>
+                    <canvas id="realtime-chart"></canvas>
+                </div>
+                <div class="monitoring-card">
+                    <h3>Error Rate Trends</h3>
+                    <canvas id="error-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Metrics Table -->
+            <div class="metrics-table-container">
+                <h3>Detailed Metrics</h3>
+                <table class="metrics-table" id="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Current Value</th>
+                            <th>24h Change</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically populated -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Configuration Section -->
+        <section id="configuration-section" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-cog"></i> Configuration</h2>
+                <p>System configuration and settings management</p>
+            </div>
+
+            <div class="config-tabs">
+                <button class="tab-btn active" data-tab="service">Service</button>
+                <button class="tab-btn" data-tab="cache">Cache</button>
+                <button class="tab-btn" data-tab="security">Security</button>
+                <button class="tab-btn" data-tab="features">Features</button>
+            </div>
+
+            <!-- Service Configuration -->
+            <div class="config-panel active" id="service-config">
+                <h3>Service Configuration</h3>
+                <form class="config-form">
+                    <div class="form-group">
+                        <label for="service-enabled">Service Enabled</label>
+                        <input type="checkbox" id="service-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="thread-pool-size">Thread Pool Size</label>
+                        <input type="number" id="thread-pool-size" value="8" min="1" max="32">
+                    </div>
+                    <div class="form-group">
+                        <label for="default-timeout">Default Timeout (seconds)</label>
+                        <input type="number" id="default-timeout" value="30" min="5" max="300">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Cache Configuration -->
+            <div class="config-panel" id="cache-config">
+                <h3>Cache Configuration</h3>
+                <form class="config-form">
+                    <div class="form-group">
+                        <label for="cache-enabled">Cache Enabled</label>
+                        <input type="checkbox" id="cache-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="cache-max-entries">Max Cache Entries</label>
+                        <input type="number" id="cache-max-entries" value="1000" min="100" max="10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="cache-ttl">Default TTL (seconds)</label>
+                        <input type="number" id="cache-ttl" value="3600" min="60" max="86400">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Security Configuration -->
+            <div class="config-panel" id="security-config">
+                <h3>Security Configuration</h3>
+                <form class="config-form">
+                    <div class="form-group">
+                        <label for="sanitize-data">Data Sanitization</label>
+                        <input type="checkbox" id="sanitize-data" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="audit-enabled">Audit Logging</label>
+                        <input type="checkbox" id="audit-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="log-level">Log Level</label>
+                        <select id="log-level">
+                            <option value="DEBUG">Debug</option>
+                            <option value="INFO" selected>Info</option>
+                            <option value="WARN">Warning</option>
+                            <option value="ERROR">Error</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Features Configuration -->
+            <div class="config-panel" id="features-config">
+                <h3>Feature Flags</h3>
+                <form class="config-form">
+                    <div class="form-group">
+                        <label for="vuln-analysis-enabled">Vulnerability Analysis</label>
+                        <input type="checkbox" id="vuln-analysis-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="threat-modeling-enabled">Threat Modeling</label>
+                        <input type="checkbox" id="threat-modeling-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="scan-optimization-enabled">Scan Optimization</label>
+                        <input type="checkbox" id="scan-optimization-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-generation-enabled">Report Generation</label>
+                        <input type="checkbox" id="report-generation-enabled" checked>
+                    </div>
+                    <div class="form-group">
+                        <label for="exploit-suggestion-enabled">Exploit Suggestion</label>
+                        <input type="checkbox" id="exploit-suggestion-enabled">
+                    </div>
+                </form>
+            </div>
+
+            <div class="config-actions">
+                <button class="btn btn-primary" id="save-config-btn">
+                    <i class="fas fa-save"></i> Save Configuration
+                </button>
+                <button class="btn btn-secondary" id="reset-config-btn">
+                    <i class="fas fa-undo"></i> Reset to Defaults
+                </button>
+            </div>
+        </section>
+
+        <!-- Logs Section -->
+        <section id="logs-section" class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> System Logs</h2>
+                <p>View system logs and audit trails</p>
+                <div class="log-controls">
+                    <select id="log-level-filter">
+                        <option value="">All Levels</option>
+                        <option value="DEBUG">Debug</option>
+                        <option value="INFO">Info</option>
+                        <option value="WARN">Warning</option>
+                        <option value="ERROR">Error</option>
+                    </select>
+                    <button class="btn btn-secondary" id="clear-logs-btn">
+                        <i class="fas fa-trash"></i> Clear Logs
+                    </button>
+                    <button class="btn btn-secondary" id="export-logs-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="logs-container">
+                <div class="log-viewer" id="log-viewer">
+                    <!-- Dynamically populated log entries -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Add Provider Modal -->
+    <div class="modal" id="add-provider-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add AI Provider</h3>
+                <button class="modal-close" data-modal="add-provider-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-provider-form">
+                    <div class="form-group">
+                        <label for="provider-type">Provider Type</label>
+                        <select id="provider-type" required>
+                            <option value="">Select Provider</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="claude">Claude (Anthropic)</option>
+                            <option value="custom">Custom API</option>
+                            <option value="local">Local Model</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="provider-name">Provider Name</label>
+                        <input type="text" id="provider-name" required placeholder="My OpenAI Provider">
+                    </div>
+                    <div class="form-group">
+                        <label for="api-key">API Key</label>
+                        <input type="password" id="api-key" required placeholder="sk-...">
+                    </div>
+                    <div class="form-group">
+                        <label for="endpoint-url">Endpoint URL</label>
+                        <input type="url" id="endpoint-url" placeholder="https://api.openai.com/v1/chat/completions">
+                    </div>
+                    <div class="form-group">
+                        <label for="model-name">Model</label>
+                        <input type="text" id="model-name" placeholder="gpt-4">
+                    </div>
+                    <div class="form-group">
+                        <label for="timeout-seconds">Timeout (seconds)</label>
+                        <input type="number" id="timeout-seconds" value="30" min="5" max="300">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-modal="add-provider-modal">Cancel</button>
+                <button class="btn btn-primary" id="save-provider-btn">Save Provider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container">
+        <!-- Dynamically populated toasts -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

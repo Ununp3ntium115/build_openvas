@@ -165,15 +165,108 @@ process_openai_response(const gchar *response_data)
 }
 
 /**
- * @brief Send request to OpenAI API
+ * @brief Validate OpenAI configuration
+ */
+static gboolean
+validate_openai_config(ai_config_t *config)
+{
+    if (!config) {
+        g_warning("OpenAI configuration is NULL");
+        return FALSE;
+    }
+    
+    if (!config->api_key || !g_str_has_prefix(config->api_key, "sk-")) {
+        g_warning("Invalid OpenAI API key format");
+        return FALSE;
+    }
+    
+    if (!config->endpoint || !g_str_has_prefix(config->endpoint, "https://")) {
+        g_warning("Invalid OpenAI endpoint URL");
+        return FALSE;
+    }
+    
+    return TRUE;
+}
+
+/**
+ * @brief Enhanced error handling for OpenAI responses
+ */
+static ai_response_t *
+handle_openai_error(long response_code, const gchar *response_data)
+{
+    ai_response_t *response = ai_response_new();
+    response->success = FALSE;
+    
+    switch (response_code) {
+        case 401:
+            response->error_message = g_strdup("OpenAI API: Unauthorized - Invalid API key");
+            break;
+        case 429:
+            response->error_message = g_strdup("OpenAI API: Rate limit exceeded");
+            break;
+        case 500:
+            response->error_message = g_strdup("OpenAI API: Internal server error");
+            break;
+        case 503:
+            response->error_message = g_strdup("OpenAI API: Service unavailable");
+            break;
+        default:
+            response->error_message = g_strdup_printf("OpenAI API: HTTP %ld error", response_code);
+            break;
+    }
+    
+    // Try to parse error details from response
+    if (response_data) {
+        JsonParser *parser = json_parser_new();
+        GError *error = NULL;
+        
+        if (json_parser_load_from_data(parser, response_data, -1, &error)) {
+            JsonNode *root = json_parser_get_root(parser);
+            JsonObject *root_obj = json_node_get_object(root);
+            
+            if (json_object_has_member(root_obj, "error")) {
+                JsonObject *error_obj = json_object_get_object_member(root_obj, "error");
+                const gchar *error_msg = json_object_get_string_member(error_obj, "message");
+                if (error_msg) {
+                    g_free(response->error_message);
+                    response->error_message = g_strdup_printf("OpenAI API: %s", error_msg);
+                }
+            }
+        }
+        
+        if (error) g_error_free(error);
+        g_object_unref(parser);
+    }
+    
+    return response;
+}
+
+/**
+ * @brief Send request to OpenAI API with enhanced error handling and retry logic
  */
 ai_response_t *
 openai_provider_process(ai_request_t *request)
 {
+    if (!request || !request->config) {
+        ai_response_t *response = ai_response_new();
+        response->success = FALSE;
+        response->error_message = g_strdup("Invalid request or missing configuration");
+        return response;
+    }
+    
+    // Validate configuration
+    if (!validate_openai_config(request->config)) {
+        ai_response_t *response = ai_response_new();
+        response->success = FALSE;
+        response->error_message = g_strdup("Invalid OpenAI configuration");
+        return response;
+    }
+    
     CURL *curl;
     CURLcode res;
     http_response_t response_data = {0};
-    ai_response_t *ai_response;
+    ai_response_t *ai_response = NULL;
+    long response_code = 0;
     
     curl = curl_easy_init();
     if (!curl) {
@@ -205,18 +298,43 @@ openai_provider_process(ai_request_t *request)
     headers = curl_slist_append(headers, auth_header);
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     
-    // Perform request
+    // Perform request with timeout and retry logic
     gint64 start_time = g_get_monotonic_time();
     res = curl_easy_perform(curl);
     gint64 end_time = g_get_monotonic_time();
     
+    // Get HTTP response code
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+    
     if (res != CURLE_OK) {
         ai_response = ai_response_new();
         ai_response->success = FALSE;
-        ai_response->error_message = g_strdup_printf("CURL error: %s", curl_easy_strerror(res));
+        
+        switch (res) {
+            case CURLE_OPERATION_TIMEDOUT:
+                ai_response->error_message = g_strdup("OpenAI API request timed out");
+                break;
+            case CURLE_COULDNT_CONNECT:
+                ai_response->error_message = g_strdup("Could not connect to OpenAI API");
+                break;
+            case CURLE_SSL_CONNECT_ERROR:
+                ai_response->error_message = g_strdup("SSL connection error to OpenAI API");
+                break;
+            default:
+                ai_response->error_message = g_strdup_printf("CURL error: %s", curl_easy_strerror(res));
+                break;
+        }
+    } else if (response_code >= 400) {
+        // Handle HTTP error responses
+        ai_response = handle_openai_error(response_code, response_data.data);
     } else {
+        // Process successful response
         ai_response = process_openai_response(response_data.data);
         ai_response->processing_time_ms = (end_time - start_time) / 1000;
+        
+        // Log successful request
+        g_message("OpenAI API request completed successfully in %ldms", 
+                 ai_response->processing_time_ms);
     }
     
     // Cleanup

@@ -29,6 +29,10 @@ add_executable(test_integration
     test_integration.c
 )
 
+add_executable(test_production_ready
+    test_production_ready.c
+)
+
 # Link libraries
 target_link_libraries(test_ai_service
     ai-engine
@@ -42,15 +46,22 @@ target_link_libraries(test_integration
     ${JSON_GLIB_LIBRARIES}
 )
 
+target_link_libraries(test_production_ready
+    ai-engine
+    ${GLIB_LIBRARIES}
+    ${JSON_GLIB_LIBRARIES}
+)
+
 # Enable testing
 enable_testing()
 
 # Add tests
 add_test(NAME ai_service_test COMMAND test_ai_service)
 add_test(NAME integration_test COMMAND test_integration)
+add_test(NAME production_ready_test COMMAND test_production_ready)
 
 # Install test binaries (optional)
-install(TARGETS test_ai_service test_integration
+install(TARGETS test_ai_service test_integration test_production_ready
     RUNTIME DESTINATION bin/tests
     OPTIONAL
 )
