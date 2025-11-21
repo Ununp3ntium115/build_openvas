@@ -244,21 +244,19 @@ impl TheCharter {
 
     /// Validate the charter
     pub fn validate(&self) -> Result<(), String> {
-        // Validate at least one agitator is configured
-        if self.agitators.is_empty() {
-            return Err("No agitators configured in charter".to_string());
+        // Note: Empty agitators list is allowed - AI features will be disabled
+        // but other functionality (like scanning) may still work
+
+        // If agitators are configured, validate at least one is enabled
+        if !self.agitators.is_empty() && !self.agitators.iter().any(|a| a.enabled) {
+            return Err("Agitators are configured but none are enabled".to_string());
         }
 
-        // Validate at least one agitator is enabled
-        if !self.agitators.iter().any(|a| a.enabled) {
-            return Err("No enabled agitators in charter".to_string());
-        }
-
-        // Validate agitators have API keys
+        // Validate enabled agitators have API keys configured
         for agitator in &self.agitators {
-            if agitator.enabled && agitator.api_key.is_none() {
+            if agitator.enabled && agitator.api_key.is_none() && agitator.api_key_env.is_none() {
                 return Err(format!(
-                    "Agitator '{}' is enabled but has no API key",
+                    "Agitator '{}' is enabled but has no API key or API key environment variable configured",
                     agitator.name
                 ));
             }

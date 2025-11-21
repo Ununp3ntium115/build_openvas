@@ -1,11 +1,11 @@
 [package]
-name = "the_collective"
+name = "the_foundation"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "The Collective - AI Service Core for CRYPTEX"
+description = "The Foundation - Core types and traits for CRYPTEX"
 
 [dependencies]
 # Workspace dependencies
@@ -16,17 +16,6 @@ serde_json = { workspace = true }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
 reqwest = { workspace = true }
 uuid = { workspace = true }
 chrono = { workspace = true }
-once_cell = { workspace = true }
-
-# Internal dependencies
-the_foundation = { path = "../the_foundation" }
-the_coordinator = { path = "../the_coordinator" }
-the_agitator = { path = "../the_agitator" }
-
-[dev-dependencies]
-mockall = { workspace = true }
-tokio-test = "0.4"

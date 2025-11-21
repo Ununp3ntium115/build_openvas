@@ -65,14 +65,20 @@
 //! ```
 
 pub mod api;
-pub mod error;
-pub mod models;
+pub mod memory;
+pub mod observer;
 
-// Re-exports
-pub use error::{CryptexError, CryptexResult};
-pub use models::{
-    AgitatorType, TaskType, TheCertainty, TheInquiry, ThePackage, TheReply,
+// Re-exports from the_foundation
+pub use the_foundation::{
+    AgitatorType, CryptexError, CryptexResult, TaskType, TheAgitator, TheCertainty,
+    TheInquiry, ThePackage, TheReply,
 };
+
+// Re-exports from this crate
+pub use api::TheCollective;
+pub use memory::{CacheStatistics, TheMemory};
+pub use observer::{ObserverMetrics, TheObserver};
+pub use the_coordinator::TheCharter;
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
