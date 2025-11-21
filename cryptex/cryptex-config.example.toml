@@ -1,0 +1,50 @@
+# CRYPTEX Configuration Example
+# Copy this file to cryptex-config.toml and customize
+
+[commune]
+# Name of this CRYPTEX node
+name = "CRYPTEX Liberation Node"
+
+# HTTP server configuration
+host = "127.0.0.1"
+port = 8080
+ws_port = 9090
+
+# AI Provider: OpenAI
+[[agitators]]
+name = "openai"
+agitator_type = "openai"
+enabled = true
+# Set API key via environment variable OPENAI_API_KEY
+api_key_env = "OPENAI_API_KEY"
+model = "gpt-4"
+timeout_seconds = 30
+
+# AI Provider: Claude (Anthropic)
+[[agitators]]
+name = "claude"
+agitator_type = "claude"
+enabled = true
+# Set API key via environment variable ANTHROPIC_API_KEY
+api_key_env = "ANTHROPIC_API_KEY"
+model = "claude-3-sonnet-20240229"
+timeout_seconds = 30
+
+# Database configuration
+[archive]
+path = "./cryptex-archive.redb"
+max_size_gb = 10
+
+# Cache configuration
+[memory]
+max_size_mb = 256
+ttl_seconds = 3600
+
+# Scanner configuration (optional)
+[infiltrator]
+scanner_path = "/usr/local/bin/openvas"
+max_concurrent_scans = 3
+
+# AI reply cache threshold (0.0 to 1.0)
+# Only cache replies with certainty >= this threshold
+cache_threshold = 0.8

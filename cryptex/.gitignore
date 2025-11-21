@@ -1,0 +1,41 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Configuration
+cryptex-config.toml
+
+# Database
+*.redb
+cryptex-archive.redb
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+/dist/
+/build/
+
+# Testing
+/coverage/
+tarpaulin-report.html
+
+# Documentation build
+/target/doc/
+
+# OS specific
+Thumbs.db

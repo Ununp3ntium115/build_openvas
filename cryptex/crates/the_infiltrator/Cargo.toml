@@ -1,0 +1,20 @@
+[package]
+name = "the_infiltrator"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "CRYPTEX the infiltrator module"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+the_collective = { path = "../the_collective" }
+
+[dev-dependencies]

@@ -1,0 +1,19 @@
+[package]
+name = "the_coordinator"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The Coordinator - Configuration Management for CRYPTEX"
+
+[dependencies]
+# Workspace dependencies
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+config = { workspace = true }
+toml = { workspace = true }
+
+[dev-dependencies]
