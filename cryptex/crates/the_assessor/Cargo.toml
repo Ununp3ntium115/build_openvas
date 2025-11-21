@@ -14,7 +14,11 @@ serde_json = { workspace = true }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+chrono = { workspace = true }
+reqwest = { workspace = true }
 
-the_collective = { path = "../the_collective" }
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
 
 [dev-dependencies]
+tokio-test = "0.4"
