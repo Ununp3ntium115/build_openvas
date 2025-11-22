@@ -46,7 +46,7 @@
               stroke="var(--gsa-green-light)"
               stroke-width="2"/>
       </svg>
-      <span class="logo-text">CRYPTEX</span>
+      <span class="logo-text">openFireVulnerability</span>
     </div>
 
     <div class="status-indicator">

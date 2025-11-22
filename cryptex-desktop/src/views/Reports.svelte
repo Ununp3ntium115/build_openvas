@@ -29,7 +29,7 @@
 
   function loadReports() {
     // Load from localStorage
-    const stored = localStorage.getItem('cryptex_reports');
+    const stored = localStorage.getItem('openfire_reports');
     if (stored) {
       reports = JSON.parse(stored);
     } else {
@@ -56,7 +56,7 @@
   }
 
   function saveReports() {
-    localStorage.setItem('cryptex_reports', JSON.stringify(reports));
+    localStorage.setItem('openfire_reports', JSON.stringify(reports));
   }
 
   async function generateReport() {

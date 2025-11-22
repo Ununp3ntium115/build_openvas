@@ -16,7 +16,7 @@
   let config: Config = {
     apiUrl: 'http://localhost',
     apiPort: 8080,
-    dbPath: '$HOME/.local/share/CRYPTEX/cryptex.db',
+    dbPath: '$HOME/.local/share/openFireVulnerability/openfire.db',
     autoStartServer: true,
     notificationsEnabled: true,
     scanTimeout: 3600,
@@ -31,14 +31,14 @@
   });
 
   function loadConfig() {
-    const stored = localStorage.getItem('cryptex_config');
+    const stored = localStorage.getItem('openfire_config');
     if (stored) {
       config = JSON.parse(stored);
     }
   }
 
   function saveConfig() {
-    localStorage.setItem('cryptex_config', JSON.stringify(config));
+    localStorage.setItem('openfire_config', JSON.stringify(config));
     saved = true;
     setTimeout(() => saved = false, 3000);
   }
@@ -48,7 +48,7 @@
       config = {
         apiUrl: 'http://localhost',
         apiPort: 8080,
-        dbPath: '$HOME/.local/share/CRYPTEX/cryptex.db',
+        dbPath: '$HOME/.local/share/openFireVulnerability/openfire.db',
         autoStartServer: true,
         notificationsEnabled: true,
         scanTimeout: 3600,
@@ -141,9 +141,9 @@
             type="text"
             id="dbPath"
             bind:value={config.dbPath}
-            placeholder="$HOME/.local/share/CRYPTEX/cryptex.db"
+            placeholder="$HOME/.local/share/openFireVulnerability/openfire.db"
           />
-          <small>Full path to the CRYPTEX database file. Use $HOME for user home directory.</small>
+          <small>Full path to the openFireVulnerability database file. Use $HOME for user home directory.</small>
         </div>
       </div>
     </div>

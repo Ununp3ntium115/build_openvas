@@ -1,7 +1,7 @@
 {
-  "name": "cryptex-desktop",
+  "name": "openfirevulnerability-desktop",
   "version": "1.0.0",
-  "description": "CRYPTEX Desktop - Professional Vulnerability Assessment Platform",
+  "description": "openFireVulnerability Desktop - Professional Vulnerability Assessment Platform",
   "type": "module",
   "scripts": {
     "dev": "vite",

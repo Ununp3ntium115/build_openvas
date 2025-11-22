@@ -25,7 +25,7 @@
 
   function loadTargets() {
     // Load from localStorage for now
-    const stored = localStorage.getItem('cryptex_targets');
+    const stored = localStorage.getItem('openfire_targets');
     if (stored) {
       targets = JSON.parse(stored);
     } else {
@@ -51,7 +51,7 @@
   }
 
   function saveTargets() {
-    localStorage.setItem('cryptex_targets', JSON.stringify(targets));
+    localStorage.setItem('openfire_targets', JSON.stringify(targets));
   }
 
   function addTarget() {

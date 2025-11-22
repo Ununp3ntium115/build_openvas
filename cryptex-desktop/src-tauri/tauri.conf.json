@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "CRYPTEX",
+    "productName": "openFireVulnerability",
     "version": "1.0.0"
   },
   "tauri": {
@@ -30,7 +30,7 @@
         "writeFile": true,
         "readDir": true,
         "createDir": true,
-        "scope": ["$APPDATA/**", "$APPDATA/CRYPTEX/**"]
+        "scope": ["$APPDATA/**", "$APPDATA/openFireVulnerability/**"]
       },
       "path": {
         "all": true
@@ -50,7 +50,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "Copyright © 2024 CRYPTEX Team",
+      "copyright": "Copyright © 2024 openFireVulnerability Team",
       "deb": {
         "depends": []
       },
@@ -62,7 +62,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.cryptex.desktop",
+      "identifier": "com.openfirevulnerability.desktop",
       "longDescription": "Professional vulnerability assessment and risk analysis platform",
       "macOS": {
         "entitlements": null,
@@ -72,7 +72,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "CRYPTEX Vulnerability Scanner",
+      "shortDescription": "openFireVulnerability Scanner",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
@@ -93,7 +93,7 @@
     },
     "windows": [
       {
-        "title": "CRYPTEX - Vulnerability Assessment Platform",
+        "title": "openFireVulnerability - Vulnerability Assessment Platform",
         "width": 1400,
         "height": 900,
         "minWidth": 1024,
