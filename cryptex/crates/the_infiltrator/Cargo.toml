@@ -5,7 +5,7 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "CRYPTEX the infiltrator module"
+description = "The Infiltrator - Scanner Integration Bridge for CRYPTEX"
 
 [dependencies]
 tokio = { workspace = true }
@@ -14,7 +14,12 @@ serde_json = { workspace = true }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
 
-the_collective = { path = "../the_collective" }
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
+the_assessor = { path = "../the_assessor" }
 
 [dev-dependencies]
+tokio-test = "0.4"
