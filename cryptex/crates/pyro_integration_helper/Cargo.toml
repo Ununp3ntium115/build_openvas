@@ -1,0 +1,21 @@
+[package]
+name = "pyro_integration_helper"
+version = "1.0.0"
+edition = "2021"
+authors = ["CRYPTEX Team"]
+description = "MCP server for PYRO Platform integration assistance"
+
+[[bin]]
+name = "pyro-integration-mcp"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+walkdir = "2.4"
+regex = "1.10"
+glob = "0.3"
+
+[dev-dependencies]
