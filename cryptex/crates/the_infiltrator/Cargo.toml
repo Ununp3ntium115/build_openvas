@@ -1,0 +1,25 @@
+[package]
+name = "the_infiltrator"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The Infiltrator - Scanner Integration Bridge for CRYPTEX"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
+the_assessor = { path = "../the_assessor" }
+
+[dev-dependencies]
+tokio-test = "0.4"

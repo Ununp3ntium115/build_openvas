@@ -1,0 +1,36 @@
+[package]
+name = "the_interface"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "CRYPTEX the interface module"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+axum = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+chrono = { workspace = true }
+
+the_foundation = { path = "../the_foundation" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+the_propagandist = { path = "../the_propagandist" }
+the_archive = { path = "../the_archive" }
+
+[[bin]]
+name = "the_interface_server"
+path = "src/bin/server.rs"
+
+[dependencies.tracing-subscriber]
+version = "0.3"
+features = ["env-filter", "fmt"]
+
+[dev-dependencies]

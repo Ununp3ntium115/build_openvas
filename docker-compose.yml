@@ -1,0 +1,114 @@
+# CRYPTEX Full-Stack Deployment
+# Integrates with PYRO Platform or runs standalone
+
+version: '3.8'
+
+services:
+  # CRYPTEX MCP Server (for PYRO integration)
+  cryptex-mcp:
+    build:
+      context: ./cryptex
+      dockerfile: Dockerfile.mcp
+    container_name: cryptex-mcp-server
+    environment:
+      - RUST_LOG=info
+      - CRYPTEX_DB_PATH=/data/cryptex.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - cryptex-data:/data
+    restart: unless-stopped
+    networks:
+      - cryptex-network
+      - pyro-network  # Connect to PYRO network if available
+
+  # CRYPTEX REST API Server (standalone access)
+  cryptex-api:
+    build:
+      context: ./cryptex
+      dockerfile: Dockerfile.api
+    container_name: cryptex-api-server
+    environment:
+      - RUST_LOG=info
+      - CRYPTEX_DB_PATH=/data/cryptex.db
+      - CRYPTEX_BIND_ADDR=0.0.0.0:8080
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - cryptex-data:/data
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - cryptex-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # CRYPTEX Visualizer (Svelte Frontend)
+  cryptex-visualizer:
+    build:
+      context: ./cryptex-visualizer
+      dockerfile: Dockerfile
+    container_name: cryptex-visualizer
+    environment:
+      - VITE_API_URL=http://cryptex-api:8080
+    ports:
+      - "5173:80"
+    depends_on:
+      - cryptex-api
+    restart: unless-stopped
+    networks:
+      - cryptex-network
+
+  # Node-RED (The Flow - Automation)
+  node-red:
+    image: nodered/node-red:latest
+    container_name: cryptex-node-red
+    environment:
+      - TZ=UTC
+    volumes:
+      - node-red-data:/data
+      - ./node-red/flows.json:/data/flows.json
+    ports:
+      - "1880:1880"
+    depends_on:
+      - cryptex-api
+    restart: unless-stopped
+    networks:
+      - cryptex-network
+      - pyro-network
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: cryptex-nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - cryptex-api
+      - cryptex-visualizer
+      - node-red
+    restart: unless-stopped
+    networks:
+      - cryptex-network
+
+volumes:
+  cryptex-data:
+    driver: local
+  node-red-data:
+    driver: local
+
+networks:
+  cryptex-network:
+    driver: bridge
+  pyro-network:
+    external: true
+    # If PYRO network doesn't exist, this will fail gracefully
+    # Run: docker network create pyro-network

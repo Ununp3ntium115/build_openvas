@@ -1,0 +1,24 @@
+[package]
+name = "the_assessor"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "CRYPTEX the assessor module"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+reqwest = { workspace = true }
+
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
+
+[dev-dependencies]
+tokio-test = "0.4"

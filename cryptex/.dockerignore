@@ -1,0 +1,39 @@
+# Rust build artifacts
+target/
+**/target/
+
+# Development files
+.git
+.gitignore
+.github
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+tests/
+**/tests/
+
+# Documentation
+docs/
+*.md
+!DEPLOYMENT.md
+!API_REFERENCE.md
+
+# CI/CD
+.gitlab-ci.yml
+.travis.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log

@@ -1,0 +1,39 @@
+{
+  "name": "@cryptex/node-red-cryptex",
+  "version": "1.0.0",
+  "description": "Node-RED nodes for CRYPTEX vulnerability assessment platform",
+  "keywords": [
+    "node-red",
+    "cryptex",
+    "security",
+    "vulnerability",
+    "assessment",
+    "cve",
+    "kev"
+  ],
+  "author": "CRYPTEX Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ununp3ntium115/build_openvas.git"
+  },
+  "node-red": {
+    "version": ">=3.0.0",
+    "nodes": {
+      "cryptex-assess": "nodes/assess.js",
+      "cryptex-scan": "nodes/scan.js",
+      "cryptex-report": "nodes/report.js",
+      "cryptex-kev": "nodes/kev.js",
+      "cryptex-config": "nodes/config.js"
+    }
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "node-red": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

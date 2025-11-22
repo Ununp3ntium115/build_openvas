@@ -1,0 +1,32 @@
+[package]
+name = "the_commune"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The Commune - MCP Server for CRYPTEX Integration with PYRO"
+
+[[bin]]
+name = "cryptex-mcp-server"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
+the_collective = { path = "../the_collective" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+the_propagandist = { path = "../the_propagandist" }
+the_coordinator = { path = "../the_coordinator" }
+
+[dev-dependencies]
+tokio-test = "0.4"

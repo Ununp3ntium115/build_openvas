@@ -1,0 +1,43 @@
+# CRYPTEX MCP Server Dockerfile
+# Builds the MCP server for PYRO Platform integration
+
+FROM rust:1.75-slim as builder
+
+WORKDIR /build
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy workspace files
+COPY Cargo.toml Cargo.lock ./
+COPY crates ./crates
+
+# Build the MCP server
+RUN cargo build --release --bin the_commune
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy binary from builder
+COPY --from=builder /build/target/release/the_commune /app/the_commune
+
+# Create data directory
+RUN mkdir -p /data
+
+# Set environment
+ENV RUST_LOG=info
+ENV CRYPTEX_DB_PATH=/data/cryptex.db
+
+# Run the MCP server
+CMD ["/app/the_commune"]
