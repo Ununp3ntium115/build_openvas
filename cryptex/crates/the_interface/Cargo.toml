@@ -14,7 +14,15 @@ serde_json = { workspace = true }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+axum = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+chrono = { workspace = true }
 
-the_collective = { path = "../the_collective" }
+the_foundation = { path = "../the_foundation" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+the_propagandist = { path = "../the_propagandist" }
+the_archive = { path = "../the_archive" }
 
 [dev-dependencies]

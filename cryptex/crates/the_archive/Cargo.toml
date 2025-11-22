@@ -16,7 +16,11 @@ redb = { workspace = true }
 anyhow = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+chrono = { workspace = true }
 
-the_collective = { path = "../the_collective" }
+the_foundation = { path = "../the_foundation" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
 
 [dev-dependencies]
+tempfile = "3.8"
