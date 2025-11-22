@@ -1,0 +1,51 @@
+/* CRYPTEX Desktop - Global Styles */
+/* Professional OpenVAS/Greenbone theme */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Utility classes */
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-primary {
+  color: var(--text-primary) !important;
+}
+
+/* Selection */
+::selection {
+  background: var(--gsa-green);
+  color: var(--bg-primary);
+}
+
+::-moz-selection {
+  background: var(--gsa-green);
+  color: var(--bg-primary);
+}

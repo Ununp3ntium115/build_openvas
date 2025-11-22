@@ -1,0 +1,27 @@
+[package]
+name = "cryptex-desktop"
+version = "1.0.0"
+description = "CRYPTEX Desktop - Professional Vulnerability Assessment Platform"
+authors = ["CRYPTEX Team"]
+license = "MIT"
+repository = "https://github.com/Ununp3ntium115/build_openvas"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+tauri = { version = "1.5", features = ["shell-open", "dialog-all", "notification-all", "system-tray", "window-all"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.35", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+
+# CRYPTEX backend integration
+the_foundation = { path = "../../cryptex/crates/the_foundation" }
+the_interface = { path = "../../cryptex/crates/the_interface" }
+the_archive = { path = "../../cryptex/crates/the_archive" }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
