@@ -104,6 +104,28 @@ Comprehensive architectural documentation is available in `/steering`:
 cargo doc --workspace --no-deps --open
 ```
 
+### Deployment & Operations
+
+**Production deployment guides:**
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide
+  - Docker, Kubernetes, systemd configurations
+  - Security hardening & TLS setup
+  - Monitoring, logging, and alerting
+  - Scaling and performance tuning
+  - Troubleshooting procedures
+
+- **[API_REFERENCE.md](API_REFERENCE.md)** - REST API documentation
+  - Complete endpoint reference
+  - Request/response examples
+  - SDK code samples (Python, JavaScript, Rust)
+  - Authentication & rate limiting
+
+- **[PYRO_INTEGRATION.md](PYRO_INTEGRATION.md)** - MCP server integration
+  - PYRO Platform connection guide
+  - 5 MCP tools documentation
+  - Configuration examples
+
 ## 🔑 Core Concepts
 
 ### The Cryptex Dictionary
