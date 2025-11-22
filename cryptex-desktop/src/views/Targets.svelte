@@ -303,6 +303,7 @@
   .icon-btn:hover {
     background: var(--hover-bg);
     color: var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 
   .icon-btn.danger:hover {
@@ -322,12 +323,15 @@
   }
 
   .btn-primary {
-    background: var(--primary-color);
-    color: var(--text-primary);
+    background: var(--gradient-fire);
+    color: var(--text-inverse);
+    box-shadow: var(--shadow-fire);
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
+    background: var(--gradient-ember);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
 
   .btn-primary:disabled {
@@ -351,7 +355,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;

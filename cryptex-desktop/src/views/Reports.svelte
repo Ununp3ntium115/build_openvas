@@ -99,11 +99,11 @@
 
   function getFormatColor(format: string): string {
     switch (format) {
-      case 'html': return '#e34c26';
-      case 'markdown': return '#083fa1';
-      case 'json': return '#f7df1e';
-      case 'text': return '#6c757d';
-      default: return 'var(--text-secondary)';
+      case 'html': return '#ff6b35';      // Fire theme primary color
+      case 'markdown': return '#60a5fa';   // Fire theme info color
+      case 'json': return '#facc15';       // Fire theme medium/warning color
+      case 'text': return '#94a3b8';       // Fire theme muted color
+      default: return '#94a3b8';
     }
   }
 
@@ -304,12 +304,15 @@
   }
 
   .btn-primary {
-    background: var(--primary-color);
-    color: var(--text-primary);
+    background: var(--gradient-fire);
+    color: var(--text-inverse);
+    box-shadow: var(--shadow-fire);
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
+    background: var(--gradient-ember);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
 
   .btn-primary:disabled {
@@ -432,6 +435,7 @@
   .icon-btn:hover {
     background: var(--hover-bg);
     color: var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 
   @media (max-width: 768px) {

@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { invoke } from '@tauri-apps/api/tauri';
   import { Menu, Activity, Settings, HelpCircle, Minimize2, Maximize2, X } from 'lucide-svelte';
   import { appWindow } from '@tauri-apps/api/window';
 
+  const dispatch = createEventDispatcher();
   export let apiStatus = false;
 
   let isMaximized = false;

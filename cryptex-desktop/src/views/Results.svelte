@@ -397,7 +397,7 @@
   .result-card:hover {
     border-color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-md);
   }
 
   .result-header {
@@ -465,23 +465,27 @@
   }
 
   .severity-badge.critical {
-    background: rgba(220, 38, 38, 0.2);
+    background: rgba(220, 38, 38, 0.15);
     color: var(--critical-color);
+    border: 1px solid rgba(220, 38, 38, 0.3);
   }
 
   .severity-badge.high {
-    background: rgba(251, 146, 60, 0.2);
+    background: rgba(251, 146, 60, 0.15);
     color: var(--high-color);
+    border: 1px solid rgba(251, 146, 60, 0.3);
   }
 
   .severity-badge.medium {
-    background: rgba(250, 204, 21, 0.2);
+    background: rgba(250, 204, 21, 0.15);
     color: var(--medium-color);
+    border: 1px solid rgba(250, 204, 21, 0.3);
   }
 
   .severity-badge.low {
-    background: rgba(74, 222, 128, 0.2);
+    background: rgba(74, 222, 128, 0.15);
     color: var(--low-color);
+    border: 1px solid rgba(74, 222, 128, 0.3);
   }
 
   .timestamp {
@@ -496,7 +500,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
