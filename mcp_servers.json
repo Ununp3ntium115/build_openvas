@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "openfire": {
+      "command": "/home/user/build_openvas/cryptex/target/release/cryptex-mcp-server",
+      "args": [],
+      "env": {
+        "RUST_LOG": "info",
+        "CRYPTEX_DB_PATH": "/home/user/.local/share/openFireVulnerability/openfire.redb",
+        "CRYPTEX_CONFIG": "/home/user/build_openvas/cryptex/openfire-config.toml"
+      },
+      "description": "openFireVulnerability Security Assessment Platform - redb-based vulnerability scanner with AI-enhanced scoring",
+      "capabilities": {
+        "tools": true,
+        "resources": false,
+        "prompts": false
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "author": "openFireVulnerability Team",
+        "stack": ["Rust", "redb", "Node-RED", "Svelte"],
+        "database": "redb (embedded ACID database, no Redis required)",
+        "tools": [
+          "assess_vulnerability",
+          "start_scan",
+          "end_scan",
+          "generate_report",
+          "get_executive_summary"
+        ]
+      }
+    }
+  }
+}

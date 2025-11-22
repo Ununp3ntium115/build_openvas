@@ -1,0 +1,179 @@
+# openFireVulnerability Configuration
+# Stack: Rust + redb + Node-RED + Svelte + Tauri
+# NO REDIS REQUIRED - uses embedded redb database
+
+[commune]
+name = "openFireVulnerability MCP Node"
+host = "127.0.0.1"
+port = 8080
+description = "Fire-themed vulnerability assessment platform with MCP integration"
+
+# Database configuration - redb (embedded, ACID-compliant)
+[archive]
+# Path to redb database file
+path = "/home/user/.local/share/openFireVulnerability/openfire.redb"
+# Maximum database size in gigabytes
+max_size_gb = 10
+# Enable database compression
+compression = true
+# Cache size in megabytes (memory-mapped regions)
+cache_size_mb = 256
+
+# NO REDIS CONFIGURATION - using redb instead!
+# redb provides:
+#   - Zero-copy reads (faster than Redis for local access)
+#   - ACID transactions (better consistency)
+#   - Embedded (no external service required)
+#   - Cross-platform single-file database
+
+# Memory configuration (in-process caching, NOT Redis)
+[memory]
+# Maximum in-memory cache size in megabytes
+max_size_mb = 512
+# Time-to-live for cached items in seconds
+ttl_seconds = 3600
+# Cache eviction threshold (0.0-1.0)
+cache_threshold = 0.8
+# LRU cache for vulnerability scores
+enable_lru_cache = true
+
+# AI Agitators (AI providers for enhanced analysis)
+[[agitators]]
+name = "claude"
+agitator_type = "claude"
+enabled = true
+api_key_env = "ANTHROPIC_API_KEY"
+model = "claude-sonnet-4-5-20250929"
+timeout_seconds = 30
+max_tokens = 4096
+
+[[agitators]]
+name = "openai"
+agitator_type = "openai"
+enabled = false
+api_key_env = "OPENAI_API_KEY"
+model = "gpt-4"
+timeout_seconds = 30
+
+# The Interface (REST API server)
+[interface]
+bind_address = "127.0.0.1:8080"
+# Enable CORS for Svelte frontend
+cors_enabled = true
+cors_origins = ["http://localhost:1420", "tauri://localhost"]
+# Request timeout in seconds
+request_timeout = 120
+# Maximum request body size in megabytes
+max_body_size_mb = 10
+
+# The Infiltrator (Scanner integration)
+[infiltrator]
+# Scanner type: "openvas", "nmap", "nuclei", "custom"
+scanner_type = "openvas"
+# Maximum concurrent scans
+max_concurrent_scans = 5
+# Scan timeout in seconds
+scan_timeout = 3600
+# Enable real-time scan progress updates
+enable_progress_stream = true
+# WebSocket port for scan progress
+websocket_port = 8081
+
+# The Propagandist (Report generation)
+[propagandist]
+# Default report format
+default_format = "html"
+# Report templates directory
+templates_dir = "/home/user/build_openvas/cryptex/templates"
+# Include AI analysis in reports
+include_ai_analysis = true
+# Report branding
+branding = {
+  name = "openFireVulnerability",
+  logo = "fire-shield",
+  primary_color = "#ff6b35",
+  theme = "fire"
+}
+
+# Node-RED integration
+[nodered]
+# Node-RED URL
+url = "http://localhost:1880"
+# Enable Node-RED webhook integration
+enable_webhooks = true
+# Webhook endpoint for scan completions
+webhook_endpoint = "/webhook/scan-complete"
+# Custom node package path
+custom_nodes_path = "/home/user/build_openvas/node-red/nodes"
+
+# PYRO Platform Integration
+[pyro]
+# Enable PYRO platform integration
+enabled = true
+# MCP protocol version
+protocol_version = "2024-11-05"
+# MCP server name exposed to PYRO
+server_name = "openfire"
+# Description shown in PYRO
+description = "openFireVulnerability - Fire-themed security assessment with redb, no Redis"
+# Capabilities exposed to PYRO
+capabilities = {
+  tools = true,
+  resources = false,
+  prompts = false,
+  sampling = false
+}
+
+# Logging configuration
+[logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+# Log format: json, pretty, compact
+format = "pretty"
+# Log to file
+log_file = "/home/user/.local/share/openFireVulnerability/openfire.log"
+# Rotate logs
+rotate_logs = true
+# Maximum log file size in megabytes
+max_log_size_mb = 100
+
+# Security configuration
+[security]
+# Enable API authentication (bearer tokens)
+enable_auth = false
+# JWT secret (set via CRYPTEX_JWT_SECRET env var)
+jwt_secret_env = "CRYPTEX_JWT_SECRET"
+# Token expiration in seconds
+token_expiration = 86400
+# Rate limiting
+enable_rate_limiting = true
+# Requests per minute per IP
+rate_limit = 100
+
+# Performance tuning
+[performance]
+# Number of worker threads (0 = auto-detect CPU cores)
+worker_threads = 0
+# Enable HTTP/2
+enable_http2 = true
+# Enable compression (gzip, br)
+enable_compression = true
+# Database read pool size
+db_read_pool_size = 4
+# Database write pool size
+db_write_pool_size = 1
+
+# Vulnerability data sources
+[datasources]
+# NVD API configuration
+nvd_api_url = "https://services.nvd.nist.gov/rest/json/cves/2.0"
+nvd_api_key_env = "NVD_API_KEY"
+nvd_cache_ttl = 86400
+
+# CISA KEV catalog
+kev_url = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+kev_cache_ttl = 3600
+
+# EPSS API
+epss_url = "https://api.first.org/data/v1/epss"
+epss_cache_ttl = 86400
