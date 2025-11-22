@@ -9,6 +9,7 @@ members = [
     "crates/the_archive",
     "crates/the_interface",
     "crates/the_coordinator",
+    "crates/the_commune",
 ]
 resolver = "2"
 

@@ -9,6 +9,7 @@ CRYPTEX is a revolutionary, fully Rust-based security assessment platform that t
 ## 🏗️ Project Status
 
 **Phase**: 2 (Processing & Analysis) - ✅ COMPLETE
+**MCP Integration**: ✅ PYRO Platform ready
 **Build Status**: ✅ All crates compile successfully
 **Test Coverage**: ✅ 68 tests passing (33 Phase 1 + 35 Phase 2)
 **Documentation**: Comprehensive rustdoc coverage
@@ -19,6 +20,7 @@ CRYPTEX is a revolutionary, fully Rust-based security assessment platform that t
 cryptex/
 ├── Cargo.toml                  # Workspace configuration
 ├── README.md                   # This file
+├── PYRO_INTEGRATION.md         # ✅ MCP Server Integration Guide
 └── crates/
     ├── the_foundation/         # ✅ Core Types & Traits (Phase 1)
     ├── the_collective/         # ✅ AI Service Core (Phase 1)
@@ -26,6 +28,7 @@ cryptex/
     ├── the_assessor/           # ✅ Vulnerability Scoring (Phase 2)
     ├── the_infiltrator/        # ✅ Scanner Bridge (Phase 2)
     ├── the_propagandist/       # ✅ Report Generation (Phase 2)
+    ├── the_commune/            # ✅ MCP Server (PYRO Integration)
     ├── the_archive/            # 📋 Database Layer (redb)
     ├── the_interface/          # 📋 REST API Server (Phase 3)
     └── the_coordinator/        # ✅ Configuration Management (Phase 0)
@@ -119,6 +122,7 @@ CRYPTEX uses anarchist terminology throughout the codebase:
 | `vulnerability_scoring` | `the_assessor` | Risk evaluation |
 | `report_generator` | `the_propagandist` | Report creation |
 | `server` | `the_interface` | HTTP API server |
+| `mcp_server` | `the_commune` | MCP server (PYRO integration) |
 
 ### Example Usage
 
@@ -154,6 +158,51 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 ```
+
+## 🔗 PYRO Platform Integration
+
+CRYPTEX integrates with the [PYRO Platform Ignition](https://github.com/Ununp3ntium115/PYRO_Platform_Ignition.git) via **The Commune** - an MCP (Model Context Protocol) server that exposes CRYPTEX's vulnerability assessment capabilities to AI agents.
+
+### Quick Start with PYRO
+
+```bash
+# Build The Commune MCP server
+cargo build --release -p the_commune
+
+# Test MCP server
+./test_mcp.sh
+
+# Use in PYRO (see PYRO_INTEGRATION.md for full details)
+export CRYPTEX_MCP_SERVER=/path/to/cryptex/target/release/cryptex-mcp-server
+```
+
+### Available MCP Tools
+
+The Commune exposes 5 MCP tools to PYRO:
+
+1. **assess_vulnerability** - Comprehensive CVE assessment with CVSS, KEV, EPSS, AI scoring
+2. **start_scan** - Initiate vulnerability scan on targets
+3. **end_scan** - Complete scan and generate summary
+4. **generate_report** - Multi-format reports (JSON, HTML, Markdown, Text)
+5. **get_executive_summary** - Executive-level vulnerability analysis
+
+### Example: PYRO Agent Usage
+
+```python
+from pyro import Agent
+
+agent = Agent(name="SecurityAnalyst", mcp_servers=["cryptex"])
+
+# Assess Log4Shell
+result = await agent.use_tool(
+    server="cryptex",
+    tool="assess_vulnerability",
+    arguments={"cve_id": "CVE-2021-44228"}
+)
+# Returns: Critical severity, CVSS 10.0, KEV flagged, composite risk 1.0
+```
+
+**Full integration guide**: See [PYRO_INTEGRATION.md](PYRO_INTEGRATION.md)
 
 ## 🧪 Testing
 

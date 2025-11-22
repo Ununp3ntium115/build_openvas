@@ -15,7 +15,7 @@
 //!
 //! ```rust,no_run
 //! use the_agitator::{TheAgitator, OpenAIAgitator};
-//! use the_collective::{ThePackage, AgitatorType};
+//! use the_foundation::{ThePackage, AgitatorType};
 //!
 //! #[tokio::main]
 //! async fn main() -> Result<(), Box<dyn std::error::Error>> {
