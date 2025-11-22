@@ -1,7 +1,8 @@
 <script lang="ts">
   /**
-   * CRYPTEX Desktop Application
-   * Professional OpenVAS-style vulnerability assessment UI
+   * openFireVulnerability Desktop Application
+   * Professional fire-themed vulnerability assessment platform
+   * Stack: Tauri + Rust (redb) + Svelte + Node-RED
    */
 
   import { onMount } from 'svelte';
@@ -39,7 +40,7 @@
   }
 </script>
 
-<div class="app greenbone-theme">
+<div class="app fire-theme">
   <TopBar bind:apiStatus on:toggleSidebar={toggleSidebar} />
 
   <div class="main-container">
@@ -61,36 +62,78 @@
 
 <style>
   :global(:root) {
-    /* Greenbone/OpenVAS color scheme */
-    --gsa-green: #66c430;
-    --gsa-green-dark: #5ab028;
-    --gsa-green-light: #7ed13f;
+    /* openFireVulnerability color scheme - Fire-themed professional palette */
+    /* Primary brand colors - Fire theme */
+    --primary-color: #ff6b35;        /* Flame Orange - primary brand color */
+    --primary-hover: #ff8c5a;        /* Lighter flame for hover states */
+    --primary-dark: #e55a2b;         /* Darker flame for pressed states */
 
-    --bg-primary: #1a1d1e;
-    --bg-secondary: #242729;
-    --bg-tertiary: #2e3235;
-    --bg-hover: #363a3d;
+    /* Secondary and accent colors */
+    --secondary-color: #ffa500;      /* Ember Orange - secondary accent */
+    --secondary-hover: #ffb733;      /* Lighter ember */
+    --accent-fire: #ff4500;          /* Pure fire red-orange */
+    --accent-ember: #d4621e;         /* Deep ember */
 
-    --border-color: #3a3f42;
-    --border-light: #4a4f52;
+    /* Dark professional background - security tool aesthetic */
+    --bg-primary: #0f0f0f;           /* Near black - deepest background */
+    --bg-secondary: #1a1a1a;         /* Charcoal - primary surfaces */
+    --bg-tertiary: #242424;          /* Lighter charcoal - elevated surfaces */
+    --bg-hover: #2e2e2e;             /* Hover state background */
+    --bg-active: #383838;            /* Active/pressed state */
 
-    --text-primary: #e8e8e8;
-    --text-secondary: #b8b8b8;
-    --text-muted: #888888;
+    /* Borders and dividers */
+    --border-color: #333333;         /* Subtle borders */
+    --border-light: #444444;         /* Lighter borders for emphasis */
+    --border-focus: #ff6b35;         /* Fire orange for focused elements */
 
-    --critical: #d94f4f;
-    --high: #f59842;
-    --medium: #f5c842;
-    --low: #7ed13f;
-    --log: #4a9eff;
+    /* Text colors */
+    --text-primary: #f5f5f5;         /* High contrast white-ish */
+    --text-secondary: #cccccc;       /* Medium gray for secondary text */
+    --text-muted: #999999;           /* Muted gray for hints/labels */
+    --text-inverse: #0f0f0f;         /* Dark text for light backgrounds */
 
-    --success: #66c430;
-    --warning: #f59842;
-    --error: #d94f4f;
-    --info: #4a9eff;
+    /* Severity colors - fire gradient */
+    --critical-color: #dc2626;       /* Critical red - immediate danger */
+    --high-color: #fb923c;           /* High orange - urgent */
+    --medium-color: #facc15;         /* Medium yellow - warning */
+    --low-color: #4ade80;            /* Low green - minimal risk */
+    --info-color: #60a5fa;           /* Info blue - neutral information */
 
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+    /* Legacy severity color names for compatibility */
+    --critical: #dc2626;
+    --high: #fb923c;
+    --medium: #facc15;
+    --low: #4ade80;
+    --log: #60a5fa;
+
+    /* Status colors */
+    --success-color: #22c55e;        /* Success green */
+    --warning-color: #f59e0b;        /* Warning amber */
+    --error-color: #ef4444;          /* Error red */
+    --running-color: #3b82f6;        /* Running blue */
+
+    /* Legacy status color names for compatibility */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #60a5fa;
+
+    /* Gradients - fire-themed */
+    --gradient-fire: linear-gradient(135deg, #ff4500 0%, #ff6b35 50%, #ffa500 100%);
+    --gradient-ember: linear-gradient(135deg, #d4621e 0%, #e55a2b 100%);
+    --gradient-dark: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+
+    /* Shadows - enhanced depth */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+    --shadow-fire: 0 0 20px rgba(255, 107, 53, 0.15);  /* Subtle fire glow */
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(body) {

@@ -113,8 +113,9 @@
 
   .nav-item:global(.active) {
     background: var(--bg-tertiary);
-    color: var(--gsa-green);
-    border-left: 3px solid var(--gsa-green);
+    color: var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 
   .nav-item:global(.active)::before {
@@ -124,7 +125,7 @@
     top: 0;
     bottom: 0;
     width: 3px;
-    background: var(--gsa-green);
+    background: var(--gradient-fire);
   }
 
   .nav-label {
@@ -174,8 +175,9 @@
 
   .quick-action-btn:hover {
     background: var(--bg-hover);
-    border-color: var(--gsa-green);
-    color: var(--gsa-green);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 
   .status-panel {
@@ -205,7 +207,7 @@
   }
 
   .status-badge.online {
-    background: rgba(102, 196, 48, 0.2);
-    color: var(--gsa-green);
+    background: rgba(255, 107, 53, 0.15);
+    color: var(--primary-color);
   }
 </style>

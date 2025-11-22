@@ -41,10 +41,18 @@
 
     <div class="logo">
       <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+        <defs>
+          <linearGradient id="fireGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff4500"/>
+            <stop offset="50%" stop-color="#ff6b35"/>
+            <stop offset="100%" stop-color="#ffa500"/>
+          </linearGradient>
+        </defs>
         <path d="M32 4L8 14V28C8 42 16 54 32 60C48 54 56 42 56 28V14L32 4Z"
-              fill="var(--gsa-green)"
-              stroke="var(--gsa-green-light)"
+              fill="url(#fireGradient)"
+              stroke="var(--primary-hover)"
               stroke-width="2"/>
+        <path d="M32 20C28 24 28 28 32 32C36 28 36 24 32 20Z" fill="var(--accent-fire)" opacity="0.8"/>
       </svg>
       <span class="logo-text">openFireVulnerability</span>
     </div>
@@ -56,7 +64,7 @@
   </div>
 
   <div class="center-section">
-    <h1 class="page-title">Greenbone Security Assistant</h1>
+    <h1 class="page-title">openFireVulnerability Security Platform</h1>
   </div>
 
   <div class="right-section">
@@ -121,9 +129,13 @@
 
   .page-title {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--gsa-green);
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: var(--gradient-fire);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
   }
 
   .logo {
@@ -136,8 +148,11 @@
   .logo-text {
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--gsa-green);
-    letter-spacing: 1px;
+    background: var(--gradient-fire);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.5px;
   }
 
   .status-indicator {
@@ -154,12 +169,13 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--error);
+    background: var(--error-color);
     animation: pulse 2s infinite;
   }
 
   .status-dot.online {
-    background: var(--gsa-green);
+    background: var(--primary-color);
+    box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
   }
 
   .status-text {
@@ -191,7 +207,8 @@
   }
 
   .action-btn:hover {
-    color: var(--gsa-green);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 
   .window-btn {
@@ -203,7 +220,7 @@
   }
 
   .window-btn.close:hover {
-    background: var(--error);
+    background: var(--error-color);
     color: white;
   }
 

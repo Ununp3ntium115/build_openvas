@@ -1,5 +1,6 @@
-/* CRYPTEX Desktop - Global Styles */
-/* Professional OpenVAS/Greenbone theme */
+/* openFireVulnerability Desktop - Global Styles */
+/* Professional fire-themed security tool aesthetic */
+/* Stack: Tauri + Rust (redb) + Svelte + Node-RED */
 
 * {
   box-sizing: border-box;
@@ -14,9 +15,10 @@ html, body {
 }
 
 body {
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
 #app {
@@ -28,6 +30,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 /* Utility classes */
@@ -39,13 +42,28 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary) !important;
 }
 
-/* Selection */
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-fire {
+  color: var(--primary-color) !important;
+}
+
+/* Text selection - fire theme */
 ::selection {
-  background: var(--gsa-green);
-  color: var(--bg-primary);
+  background: var(--primary-color);
+  color: var(--text-inverse);
 }
 
 ::-moz-selection {
-  background: var(--gsa-green);
-  color: var(--bg-primary);
+  background: var(--primary-color);
+  color: var(--text-inverse);
+}
+
+/* Focus styles - fire glow effect */
+*:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-fire);
 }
