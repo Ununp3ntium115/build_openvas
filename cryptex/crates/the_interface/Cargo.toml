@@ -25,4 +25,12 @@ the_infiltrator = { path = "../the_infiltrator" }
 the_propagandist = { path = "../the_propagandist" }
 the_archive = { path = "../the_archive" }
 
+[[bin]]
+name = "the_interface_server"
+path = "src/bin/server.rs"
+
+[dependencies.tracing-subscriber]
+version = "0.3"
+features = ["env-filter", "fmt"]
+
 [dev-dependencies]

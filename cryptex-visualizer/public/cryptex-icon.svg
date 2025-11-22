@@ -1,0 +1,26 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- CRYPTEX Icon: Shield with circuit pattern -->
+  <path d="M32 4L8 14V28C8 42 16 54 32 60C48 54 56 42 56 28V14L32 4Z"
+        fill="#0a0a0a"
+        stroke="#00ff00"
+        stroke-width="2"/>
+
+  <!-- Circuit pattern -->
+  <path d="M32 16V32M32 32L24 32M32 32L40 32M24 32V24M40 32V40"
+        stroke="#00ff00"
+        stroke-width="2"
+        stroke-linecap="round"/>
+
+  <!-- Circuit nodes -->
+  <circle cx="32" cy="16" r="2" fill="#00ff00"/>
+  <circle cx="24" cy="24" r="2" fill="#00ff00"/>
+  <circle cx="40" cy="40" r="2" fill="#00ff00"/>
+  <circle cx="32" cy="32" r="3" fill="#00ff00"/>
+
+  <!-- KEV indicator -->
+  <path d="M28 44L30 46L34 42"
+        stroke="#ff0033"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+</svg>

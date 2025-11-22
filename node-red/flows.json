@@ -1,0 +1,324 @@
+[
+  {
+    "id": "cryptex-tab",
+    "type": "tab",
+    "label": "CRYPTEX Automation",
+    "disabled": false,
+    "info": "CRYPTEX vulnerability assessment automation flows"
+  },
+  {
+    "id": "auto-scan-flow",
+    "type": "inject",
+    "z": "cryptex-tab",
+    "name": "Scheduled Scan",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "3600",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "{\"target\":\"192.168.1.0/24\"}",
+    "payloadType": "json",
+    "x": 130,
+    "y": 100,
+    "wires": [
+      ["cryptex-start-scan"]
+    ]
+  },
+  {
+    "id": "cryptex-start-scan",
+    "type": "http request",
+    "z": "cryptex-tab",
+    "name": "Start CRYPTEX Scan",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://cryptex-api:8080/api/v1/scans",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "x": 370,
+    "y": 100,
+    "wires": [
+      ["extract-scan-id"]
+    ]
+  },
+  {
+    "id": "extract-scan-id",
+    "type": "function",
+    "z": "cryptex-tab",
+    "name": "Extract Scan ID",
+    "func": "msg.scan_id = msg.payload.scan_id;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 590,
+    "y": 100,
+    "wires": [
+      ["wait-for-completion"]
+    ]
+  },
+  {
+    "id": "wait-for-completion",
+    "type": "delay",
+    "z": "cryptex-tab",
+    "name": "Wait 5 min",
+    "pauseType": "delay",
+    "timeout": "5",
+    "timeoutUnits": "minutes",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "x": 790,
+    "y": 100,
+    "wires": [
+      ["cryptex-end-scan"]
+    ]
+  },
+  {
+    "id": "cryptex-end-scan",
+    "type": "http request",
+    "z": "cryptex-tab",
+    "name": "End Scan",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://cryptex-api:8080/api/v1/scans/{{scan_id}}/end",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "x": 130,
+    "y": 200,
+    "wires": [
+      ["check-critical-vulns"]
+    ]
+  },
+  {
+    "id": "check-critical-vulns",
+    "type": "switch",
+    "z": "cryptex-tab",
+    "name": "Check Critical Count",
+    "property": "payload.critical_count",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "gt",
+        "v": "0",
+        "vt": "num"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 1,
+    "x": 370,
+    "y": 200,
+    "wires": [
+      ["generate-alert"]
+    ]
+  },
+  {
+    "id": "generate-alert",
+    "type": "function",
+    "z": "cryptex-tab",
+    "name": "Generate Alert",
+    "func": "msg.payload = {\n  title: 'CRYPTEX: Critical Vulnerabilities Detected',\n  message: `Found ${msg.payload.critical_count} critical vulnerabilities in scan ${msg.scan_id}`,\n  severity: 'critical',\n  scan_id: msg.scan_id,\n  timestamp: new Date().toISOString()\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 590,
+    "y": 200,
+    "wires": [
+      ["send-notification", "log-alert"]
+    ]
+  },
+  {
+    "id": "send-notification",
+    "type": "http request",
+    "z": "cryptex-tab",
+    "name": "Send to PYRO",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://pyro-platform:3000/api/alerts",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "x": 790,
+    "y": 200,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "log-alert",
+    "type": "debug",
+    "z": "cryptex-tab",
+    "name": "Alert Log",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 790,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "kev-monitor",
+    "type": "inject",
+    "z": "cryptex-tab",
+    "name": "Check KEV Daily",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "86400",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 130,
+    "y": 360,
+    "wires": [
+      ["fetch-kev-catalog"]
+    ]
+  },
+  {
+    "id": "fetch-kev-catalog",
+    "type": "http request",
+    "z": "cryptex-tab",
+    "name": "Fetch KEV Catalog",
+    "method": "GET",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "x": 370,
+    "y": 360,
+    "wires": [
+      ["process-kev-updates"]
+    ]
+  },
+  {
+    "id": "process-kev-updates",
+    "type": "function",
+    "z": "cryptex-tab",
+    "name": "Check New KEVs",
+    "func": "// Check for KEVs added in last 24 hours\nconst yesterday = new Date();\nyesterday.setDate(yesterday.getDate() - 1);\n\nconst newKEVs = msg.payload.vulnerabilities.filter(v => {\n  const dateAdded = new Date(v.dateAdded);\n  return dateAdded > yesterday;\n});\n\nmsg.payload = {\n  new_count: newKEVs.length,\n  new_kevs: newKEVs.map(k => k.cveID)\n};\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 590,
+    "y": 360,
+    "wires": [
+      ["kev-alert-check"]
+    ]
+  },
+  {
+    "id": "kev-alert-check",
+    "type": "switch",
+    "z": "cryptex-tab",
+    "name": "New KEVs?",
+    "property": "payload.new_count",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "gt",
+        "v": "0",
+        "vt": "num"
+      }
+    ],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 1,
+    "x": 790,
+    "y": 360,
+    "wires": [
+      ["kev-notification"]
+    ]
+  },
+  {
+    "id": "kev-notification",
+    "type": "function",
+    "z": "cryptex-tab",
+    "name": "KEV Alert",
+    "func": "msg.payload = {\n  title: 'CRYPTEX: New KEV Vulnerabilities',\n  message: `${msg.payload.new_count} new vulnerabilities added to CISA KEV catalog`,\n  cves: msg.payload.new_kevs,\n  severity: 'high',\n  timestamp: new Date().toISOString()\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 130,
+    "y": 460,
+    "wires": [
+      ["send-kev-alert", "log-kev"]
+    ]
+  },
+  {
+    "id": "send-kev-alert",
+    "type": "http request",
+    "z": "cryptex-tab",
+    "name": "Alert PYRO",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://pyro-platform:3000/api/alerts",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "x": 370,
+    "y": 460,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "log-kev",
+    "type": "debug",
+    "z": "cryptex-tab",
+    "name": "KEV Log",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 370,
+    "y": 520,
+    "wires": []
+  }
+]

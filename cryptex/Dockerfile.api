@@ -1,0 +1,52 @@
+# CRYPTEX API Server Dockerfile
+# Builds the REST API server for standalone access
+
+FROM rust:1.75-slim as builder
+
+WORKDIR /build
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy workspace files
+COPY Cargo.toml Cargo.lock ./
+COPY crates ./crates
+
+# Build the API server
+RUN cargo build --release --bin the_interface_server
+
+# Runtime stage
+FROM debian:bookworm-slim
+
+WORKDIR /app
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy binary from builder
+COPY --from=builder /build/target/release/the_interface_server /app/the_interface_server
+
+# Create data directory
+RUN mkdir -p /data
+
+# Expose API port
+EXPOSE 8080
+
+# Set environment
+ENV RUST_LOG=info
+ENV CRYPTEX_DB_PATH=/data/cryptex.db
+ENV CRYPTEX_BIND_ADDR=0.0.0.0:8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+# Run the API server
+CMD ["/app/the_interface_server"]
