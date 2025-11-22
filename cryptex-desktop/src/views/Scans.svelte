@@ -43,10 +43,10 @@
 
   function getStatusColor(status: string) {
     const colors = {
-      'Completed': 'var(--gsa-green)',
-      'Running': 'var(--info)',
-      'Queued': 'var(--warning)',
-      'Failed': 'var(--error)'
+      'Completed': 'var(--primary-color)',
+      'Running': 'var(--info-color)',
+      'Queued': 'var(--warning-color)',
+      'Failed': 'var(--error-color)'
     };
     return colors[status] || 'var(--text-secondary)';
   }
@@ -167,16 +167,19 @@
     font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-normal);
   }
 
   .btn-primary {
-    background: var(--gsa-green);
-    color: var(--bg-primary);
+    background: var(--gradient-fire);
+    color: var(--text-inverse);
+    box-shadow: var(--shadow-fire);
   }
 
   .btn-primary:hover {
-    background: var(--gsa-green-dark);
+    background: var(--gradient-ember);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
 
   .scans-table {
@@ -218,7 +221,10 @@
 
   .scan-name {
     font-weight: 600;
-    color: var(--gsa-green);
+    background: var(--gradient-fire);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .target {
@@ -232,7 +238,7 @@
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 600;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .progress-bar {
@@ -249,7 +255,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background: var(--gsa-green);
+    background: var(--gradient-fire);
     transition: width 0.3s ease;
   }
 
@@ -279,23 +285,23 @@
   }
 
   .vuln-badge.critical {
-    background: var(--critical);
+    background: var(--critical-color);
     color: white;
   }
 
   .vuln-badge.high {
-    background: var(--high);
+    background: var(--high-color);
     color: white;
   }
 
   .vuln-badge.medium {
-    background: var(--medium);
-    color: var(--bg-primary);
+    background: var(--medium-color);
+    color: var(--text-inverse);
   }
 
   .vuln-badge.low {
-    background: var(--low);
-    color: var(--bg-primary);
+    background: var(--low-color);
+    color: var(--text-inverse);
   }
 
   .date {
@@ -315,11 +321,12 @@
     cursor: pointer;
     padding: 0.25rem;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
   }
 
   .icon-btn:hover {
     background: var(--bg-hover);
-    color: var(--gsa-green);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-fire);
   }
 </style>
