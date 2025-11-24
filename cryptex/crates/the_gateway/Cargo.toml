@@ -1,0 +1,45 @@
+[package]
+name = "the-gateway"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+# Web framework
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "fs", "trace"] }
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Static file embedding
+rust-embed = "8.0"
+mime_guess = "2.0"
+
+# Logging & tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID generation
+uuid = { version = "1.6", features = ["v4", "serde"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# CRYPTEX components (internal workspace crates)
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+the_propagandist = { path = "../the_propagandist" }
+the_collective = { path = "../the_collective" }
+the_coordinator = { path = "../the_coordinator" }
