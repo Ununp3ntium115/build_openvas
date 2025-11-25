@@ -14,10 +14,10 @@ use axum::{
     extract::{Path, Query, State},
     http::{header, StatusCode, Uri},
     response::{Html, IntoResponse, Json, Response},
-    routing::{get, post, put, delete},
+    routing::{get, post},
     Router,
 };
-use rust_embed::RustEmbed;
+use rust_embed::{RustEmbed, Embed};
 use serde::{Deserialize, Serialize};
 use std::{net::SocketAddr, sync::Arc, time::SystemTime};
 use tokio::sync::RwLock;
@@ -31,8 +31,9 @@ use the_collective::TheCollective;
 use the_coordinator::TheCharter;
 
 // Embed static GUI files from ../../gui/ directory
+// Path is relative to the crate root (cryptex/crates/the_gateway/)
 #[derive(RustEmbed)]
-#[folder = "../../../../gui/"]
+#[folder = "../../../gui/"]
 struct GuiAssets;
 
 /// Application state shared across all handlers
@@ -216,7 +217,7 @@ async fn service_status(State(state): State<AppState>) -> Json<ServiceStatus> {
 }
 
 /// GET /api/v1/providers - List all AI providers
-async fn list_providers(State(state): State<AppState>) -> Json<ProvidersList> {
+async fn list_providers(State(_state): State<AppState>) -> Json<ProvidersList> {
     // Mock providers for now - will be replaced with real data
     let providers = vec![
         Provider {
@@ -248,7 +249,7 @@ async fn list_providers(State(state): State<AppState>) -> Json<ProvidersList> {
 
 /// POST /api/v1/providers - Add a new AI provider
 async fn add_provider(
-    State(state): State<AppState>,
+    State(_state): State<AppState>,
     Json(provider): Json<AddProviderRequest>,
 ) -> Json<ProviderResponse> {
     // TODO: Implement actual provider addition logic
@@ -262,7 +263,7 @@ async fn add_provider(
 
 /// POST /api/v1/providers/{id}/test - Test a provider connection
 async fn test_provider(
-    State(state): State<AppState>,
+    State(_state): State<AppState>,
     Path(id): Path<String>,
 ) -> Json<ProviderResponse> {
     info!("Testing provider: {}", id);
@@ -306,7 +307,7 @@ async fn send_request(
         "vulnerability_analysis" => {
             if let Some(cve_id) = request.cve_id {
                 // Use TheAssessor to analyze vulnerability
-                match state.assessor.the_verdict(&cve_id).await {
+                match state.assessor.assess_vulnerability(&cve_id).await {
                     Ok(assessment) => {
                         let mut stats = state.stats.write().await;
                         stats.successful_requests += 1;
@@ -364,7 +365,7 @@ async fn send_request(
 }
 
 /// GET /api/v1/requests/history - Get request history
-async fn request_history(State(state): State<AppState>) -> Json<RequestHistory> {
+async fn request_history(State(_state): State<AppState>) -> Json<RequestHistory> {
     // Mock history - TODO: Get from TheCollective
     let requests = vec![
         HistoricalRequest {
@@ -392,7 +393,7 @@ async fn request_history(State(state): State<AppState>) -> Json<RequestHistory> 
 
 /// GET /api/v1/logs - Get system logs
 async fn get_logs(
-    State(state): State<AppState>,
+    State(_state): State<AppState>,
     Query(params): Query<LogQuery>,
 ) -> Json<LogsResponse> {
     // Mock logs - TODO: Implement actual log retrieval
@@ -477,11 +478,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!("Initializing CRYPTEX components...");
 
     // Initialize CRYPTEX components
+    // Load configuration
+    let charter = TheCharter::the_charter_loading(None)?;
+
     let assessor = Arc::new(TheAssessor::the_awakening().await?);
     let infiltrator = Arc::new(TheInfiltrator::the_awakening().await?);
     let propagandist = Arc::new(ThePropagandist::the_awakening().await?);
-    let collective = Arc::new(RwLock::new(TheCollective::the_awakening().await?));
-    let coordinator = Arc::new(RwLock::new(TheCharter::the_awakening().await?));
+    let collective = Arc::new(RwLock::new(TheCollective::the_awakening(charter.clone()).await?));
+    let coordinator = Arc::new(RwLock::new(charter));
 
     info!("✅ All CRYPTEX components initialized");
 
