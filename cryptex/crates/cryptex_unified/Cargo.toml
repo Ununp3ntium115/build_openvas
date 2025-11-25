@@ -1,0 +1,18 @@
+[package]
+name = "cryptex"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+# CLI argument parsing
+clap = { version = "4.4", features = ["derive"] }
+
+# Note: This binary is a wrapper that executes other CRYPTEX binaries
+# It doesn't need direct dependencies on internal crates
+
+[[bin]]
+name = "openFireVulnerability"
+path = "src/main.rs"
