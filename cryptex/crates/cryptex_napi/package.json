@@ -1,0 +1,68 @@
+{
+  "name": "cryptex-napi",
+  "version": "1.0.0",
+  "description": "High-performance Rust N-API bindings for CRYPTEX vulnerability assessment platform",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "keywords": [
+    "cryptex",
+    "vulnerability",
+    "assessment",
+    "napi",
+    "rust",
+    "node-red",
+    "security",
+    "cve",
+    "scanning",
+    "redb"
+  ],
+  "author": "openFireVulnerability Development Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ununp3ntium115/build_openvas.git",
+    "directory": "cryptex/crates/cryptex_napi"
+  },
+  "napi": {
+    "name": "cryptex_napi",
+    "triples": {
+      "defaults": true,
+      "additional": [
+        "x86_64-unknown-linux-gnu",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-apple-darwin",
+        "aarch64-apple-darwin",
+        "x86_64-pc-windows-msvc"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "cargo build --release",
+    "build:debug": "cargo build",
+    "test": "cargo test",
+    "prepublishOnly": "npm run build",
+    "artifacts": "napi artifacts",
+    "build:napi": "napi build --platform --release",
+    "version": "napi version"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
+}
