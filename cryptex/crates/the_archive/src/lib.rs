@@ -382,6 +382,39 @@ impl TheArchive {
         Ok(scans)
     }
 
+    /// List all vulnerabilities
+    pub fn list_vulnerabilities(&self) -> CryptexResult<Vec<StoredVulnerability>> {
+        let read_txn = self.db.begin_read().map_err(|e| {
+            CryptexError::ArchiveError(format!("Failed to begin read transaction: {}", e))
+        })?;
+
+        let table = read_txn.open_table(VULNERABILITIES_TABLE).map_err(|e| {
+            CryptexError::ArchiveError(format!("Failed to open vulnerabilities table: {}", e))
+        })?;
+
+        let mut vulnerabilities = Vec::new();
+
+        let iter = table.iter().map_err(|e| {
+            CryptexError::ArchiveError(format!("Failed to iterate vulnerabilities: {}", e))
+        })?;
+
+        for entry in iter {
+            let (_key, value) = entry.map_err(|e| {
+                CryptexError::ArchiveError(format!("Failed to read vulnerability entry: {}", e))
+            })?;
+
+            let vuln: StoredVulnerability = serde_cbor::from_slice(value.value()).map_err(|e| {
+                CryptexError::ArchiveError(format!("Failed to deserialize vulnerability: {}", e))
+            })?;
+            vulnerabilities.push(vuln);
+        }
+
+        // Sort by cached_at descending (most recent first)
+        vulnerabilities.sort_by(|a, b| b.cached_at.cmp(&a.cached_at));
+
+        Ok(vulnerabilities)
+    }
+
     /// Get database statistics
     pub fn get_stats(&self) -> CryptexResult<ArchiveStats> {
         let read_txn = self.db.begin_read().map_err(|e| {

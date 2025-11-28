@@ -1,0 +1,29 @@
+[package]
+name = "the-archive-query"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "The Archive Query - High-level redb Query Interface for CRYPTEX"
+
+[dependencies]
+# Workspace dependencies
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+redb = { workspace = true }
+
+# Internal dependencies
+the_foundation = { path = "../the_foundation" }
+the_archive = { path = "../the_archive" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+
+[dev-dependencies]
+tempfile = "3.8"
+tokio-test = "0.4"

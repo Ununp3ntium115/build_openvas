@@ -1,0 +1,43 @@
+[package]
+name = "cryptex_napi"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# N-API bindings
+napi = { version = "2", features = ["async", "tokio_rt"] }
+napi-derive = "2"
+
+# Async runtime
+tokio = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Date/Time
+chrono = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# CRYPTEX components (internal workspace crates)
+the_foundation = { path = "../the_foundation" }
+the_archive = { path = "../the_archive" }
+the-archive-query = { path = "../the_archive_query" }
+the_assessor = { path = "../the_assessor" }
+the_infiltrator = { path = "../the_infiltrator" }
+the_propagandist = { path = "../the_propagandist" }
+
+[build-dependencies]
+napi-build = "2"
+
+[profile.release]
+lto = true
