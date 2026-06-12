@@ -19,7 +19,7 @@ COPY crates ./crates
 RUN cargo build --release --bin the_commune
 
 # Runtime stage
-FROM debian:bookworm-slim
+FROM debian:12.14-slim
 
 WORKDIR /app
 
