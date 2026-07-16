@@ -19,7 +19,7 @@ COPY crates ./crates
 RUN cargo build --release --bin the_interface_server
 
 # Runtime stage
-FROM debian:12.14-slim
+FROM debian:12.15-slim
 
 WORKDIR /app
 
